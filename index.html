@@ -1,469 +1,1239 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ASAMBLEA DE DIOS | Portal de Recursos</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Cargar el SDK cliente de Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    :root {
-      --primary: #1e3a8a;
-      --secondary: #d97706;
-      --accent: #2563eb;
-      --bg: #f8fafc;
-      --card-bg: #ffffff;
-      --text: #1e293b;
-      --text-muted: #64748b;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      scroll-behavior: smooth;
-    }
-
-    nav {
-      background: var(--primary);
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .logo {
-      color: white;
-      font-size: 1.4rem;
-      font-weight: bold;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 20px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: #e2e8f0;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover {
-      color: var(--secondary);
-    }
-
-    .hero {
-      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
-      color: white;
-      text-align: center;
-      padding: 4rem 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .hero h1 {
-      font-size: 2.8rem;
-      margin-bottom: 1rem;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      max-width: 600px;
-      margin: 0 auto 1.5rem auto;
-      opacity: 0.9;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 20px 40px 20px;
-    }
-
-    .section-title {
-      font-size: 1.8rem;
-      color: var(--primary);
-      margin-bottom: 1.5rem;
-      border-left: 5px solid var(--secondary);
-      padding-left: 10px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border-radius: 12px;
-      padding: 25px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      border: 1px solid #e2e8f0;
-      transition: transform 0.2s, box-shadow 0.2s;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
-
-    .card-icon {
-      font-size: 2.2rem;
-      color: var(--secondary);
-      margin-bottom: 15px;
-    }
-
-    .card h3 {
-      font-size: 1.3rem;
-      margin-bottom: 10px;
-      color: var(--primary);
-    }
-
-    .card p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-bottom: 20px;
-    }
-
-    .btn {
-      display: inline-block;
-      text-align: center;
-      background: var(--primary);
-      color: white;
-      padding: 10px 20px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: background 0.2s;
-    }
-
-    .btn:hover {
-      background: var(--accent);
-    }
-
-    .btn-secondary {
-      background: var(--secondary);
-    }
-
-    .btn-secondary:hover {
-      background: #b45309;
-    }
-
-    .btn-disabled {
-      background: #94a3b8;
-      color: #ffffff;
-      cursor: not-allowed;
-      pointer-events: none;
-    }
-
-    /* Panel de Supabase con tu Azul Oscuro y detalles Dorados */
-    .admin-panel {
-      background: var(--primary);
-      color: white;
-      padding: 25px;
-      border-radius: 12px;
-      margin-bottom: 2.5rem;
-      box-shadow: 0 4px 15px rgba(30, 58, 138, 0.2);
-      border-top: 5px solid var(--secondary);
-    }
-
-    .admin-panel h3 {
-      color: white;
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .admin-panel input[type="file"] {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: white;
-      width: 100%;
-      margin-bottom: 12px;
-    }
-
-    .upload-btn {
-      background: var(--secondary);
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.2s;
-    }
-
-    .upload-btn:hover {
-      background: #b45309;
-    }
-
-    .file-item {
-      margin-bottom: 8px;
-      background: rgba(255, 255, 255, 0.08);
-      padding: 10px 14px;
-      border-radius: 6px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-left: 4px solid var(--secondary);
-    }
-
-    .bible-box {
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
-      border-radius: 12px;
-      padding: 25px;
-      margin-bottom: 2.5rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-    }
-
-    .bible-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    .bible-item {
-      background: #f1f5f9;
-      border: 1px solid #e2e8f0;
-      padding: 10px;
-      border-radius: 6px;
-      text-align: center;
-      font-weight: 600;
-      color: var(--primary);
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .bible-item:hover {
-      background: var(--primary);
-      color: white;
-    }
-
-    footer {
-      background: #0f172a;
-      color: #94a3b8;
-      text-align: center;
-      padding: 2rem 1rem;
-      margin-top: 3rem;
-      font-size: 0.9rem;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Navegación Original -->
-  <nav>
-    <a href="index.html" class="logo">
-      <i class="fa-solid fa-church"></i> ASAMBLEA DE DIOS
-    </a>
-    <ul class="nav-links">
-      <li><a href="index.html">Inicio</a></li>
-      <li><a href="#escuela-dominical-seccion">Escuela Dominical</a></li>
-    </ul>
-  </nav>
-
-  <!-- Hero Original -->
-  <header class="hero">
-    <h1>Bienvenido a ASAMBLEA DE DIOS</h1>
-    <p>Recursos bíblicos, lecciones e imprimibles para el ministerio, maestros y estudio personal.</p>
-  </header>
-
-  <main class="container">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblia Abierta - Portal de Lectura y Material Bíblico</title>
     
-    <!-- Tarjetas de Categorías Principales -->
-    <h2 class="section-title">Nuestras Secciones</h2>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
-    <div class="grid" style="margin-bottom: 3rem;">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            navy: '#1b365d',
+                            deepNavy: '#0f213d',
+                            blue: '#2b5288',
+                            accentBlue: '#3b82f6',
+                            gold: '#c89d49',
+                            amberGold: '#d97706',
+                            lightGold: '#fef3c7',
+                            sand: '#fbf9f4',
+                            paper: '#fcfbf7',
+                            darkBg: '#0f172a',
+                            darkCard: '#1e293b'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Lora', 'serif'],
+                        heading: ['Cinzel', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .font-reader {
+            font-family: var(--reader-font, 'Lora', serif);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 7px;
+            height: 7px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c89d49;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b08736;
+        }
+        /* Glassmorphism effects */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+        }
+        .dark .glass-panel {
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(12px);
+        }
+        .hero-bg {
+            background: linear-gradient(180deg, rgba(15, 33, 61, 0.82) 0%, rgba(15, 23, 42, 0.92) 100%), 
+                        url('https://images.unsplash.com/photo-1507499739999-097706ad8914?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+        }
+    </style>
+</head>
+<body class="bg-brand-sand text-slate-800 dark:bg-brand-darkBg dark:text-slate-100 font-sans min-h-screen flex flex-col transition-colors duration-200" id="appBody">
 
-      <div class="card">
-        <div>
-          <div class="card-icon"><i class="fa-solid fa-child-reaching"></i></div>
-          <h3>Escuela Dominical</h3>
-          <p>Encuentra lecciones bíblicas, juegos rompehielos, manualidades paso a paso y material imprimible para niños.</p>
+    <!-- TOP HEADER NAVBAR -->
+    <header class="bg-brand-navy text-white shadow-lg sticky top-0 z-50 border-b border-brand-gold/20">
+        <!-- Main Utility Header -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-4">
+            
+            <!-- Brand Logo -->
+            <div class="flex items-center space-x-3 cursor-pointer select-none" onclick="showView('home')">
+                <div class="bg-gradient-to-br from-brand-gold to-amber-600 text-brand-deepNavy p-2.5 rounded-xl shadow-md flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-book-open text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-white leading-none font-heading">
+                        BIBLIA <span class="text-brand-gold">Abierta</span>
+                    </h1>
+                    <span class="text-[10px] text-slate-300 tracking-widest uppercase block mt-1">Portal de Lectura & Estudios</span>
+                </div>
+            </div>
+
+            <!-- Global Search Bar -->
+            <div class="flex-1 max-w-lg mx-2 relative">
+                <div class="relative">
+                    <input type="text" id="searchInput" placeholder="Buscar libro, pasaje o tema (ej. Juan 3:16, fe, amor)..." 
+                        class="w-full pl-10 pr-10 py-2 rounded-full bg-slate-800/90 border border-slate-600/60 text-white placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-gold focus:bg-slate-800 transition"
+                        onkeyup="handleGlobalSearch(event)">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+                    <button id="clearSearchBtn" onclick="clearGlobalSearch()" class="hidden absolute right-3 top-2.5 text-slate-400 hover:text-white">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <!-- Search Results Floating Panel -->
+                <div id="searchResults" class="hidden absolute left-0 right-0 top-full mt-2 bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 max-h-96 overflow-y-auto z-50 p-2">
+                </div>
+            </div>
+
+            <!-- Header Actions: Version Select & Theme -->
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <!-- Translation Selector -->
+                <select id="versionSelect" onchange="changeVersion(this.value)" class="bg-slate-800 text-slate-200 text-xs rounded-lg border border-slate-700 px-2.5 py-1.5 focus:outline-none focus:border-brand-gold cursor-pointer font-medium">
+                    <option value="RVR1960">Reina-Valera 1960</option>
+                    <option value="NVI">Nueva Versión Internacional</option>
+                    <option value="TLA">Traducción Lenguaje Actual</option>
+                </select>
+
+                <!-- Dark Mode Toggle -->
+                <button onclick="toggleDarkMode()" class="p-2 text-slate-300 hover:text-brand-gold hover:bg-slate-800 rounded-full transition" title="Alternar Modo Oscuro">
+                    <i id="themeIcon" class="fa-solid fa-moon text-lg"></i>
+                </button>
+
+                <!-- Favorites Quick Access -->
+                <button onclick="showView('reader'); showSideTab('notas');" class="hidden sm:flex items-center space-x-1 text-xs bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/30 px-3 py-1.5 rounded-lg transition" title="Mis Notas">
+                    <i class="fa-solid fa-bookmark"></i>
+                    <span>Mis Notas</span>
+                </button>
+            </div>
         </div>
-        <a href="#escuela-dominical-seccion" class="btn btn-secondary">
-          Explorar Recursos <i class="fa-solid fa-arrow-down"></i>
-        </a>
-      </div>
 
-      <div class="card">
-        <div>
-          <div class="card-icon"><i class="fa-solid fa-book-open-reader"></i></div>
-          <h3>Estudios Bíblicos</h3>
-          <p>Guías de estudio profundo de las Escrituras, reflexiones diarias y bosquejos para predicar.</p>
-        </div>
-        <span class="btn btn-disabled">Próximamente</span>
-      </div>
+        <!-- Horizontal Main Navigation Bar -->
+        <nav class="bg-brand-deepNavy border-t border-slate-800 text-sm font-medium">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center space-x-1 sm:space-x-6 overflow-x-auto py-1.5 scrollbar-none">
+                <button onclick="showView('home')" id="nav-home" class="px-3 py-1.5 rounded-md text-amber-400 border-b-2 border-brand-gold font-semibold whitespace-nowrap flex items-center gap-2">
+                    <i class="fa-solid fa-house text-xs"></i> Inicio
+                </button>
+                <button onclick="openTestamentModal('antiguo')" id="nav-antiguo" class="px-3 py-1.5 rounded-md text-slate-200 hover:text-amber-300 whitespace-nowrap flex items-center gap-2">
+                    <i class="fa-solid fa-scroll text-xs text-brand-gold"></i> Antiguo Testamento
+                </button>
+                <button onclick="openTestamentModal('nuevo')" id="nav-nuevo" class="px-3 py-1.5 rounded-md text-slate-200 hover:text-amber-300 whitespace-nowrap flex items-center gap-2">
+                    <i class="fa-solid fa-cross text-xs text-brand-gold"></i> Nuevo Testamento
+                </button>
+                <button onclick="showView('reader'); showSideTab('comentarios')" id="nav-estudios" class="px-3 py-1.5 rounded-md text-slate-200 hover:text-amber-300 whitespace-nowrap flex items-center gap-2">
+                    <i class="fa-solid fa-graduation-cap text-xs text-brand-gold"></i> Estudios Bíblicos
+                </button>
+                <button onclick="showView('reader'); showSideTab('recursos')" id="nav-recursos" class="px-3 py-1.5 rounded-md text-slate-200 hover:text-amber-300 whitespace-nowrap flex items-center gap-2">
+                    <i class="fa-solid fa-file-pdf text-xs text-brand-gold"></i> Recursos y Descargas
+                </button>
+                <button onclick="showView('reader'); showSideTab('sermon')" id="nav-sermones" class="px-3 py-1.5 rounded-md text-slate-200 hover:text-amber-300 whitespace-nowrap flex items-center gap-2">
+                    <i class="fa-solid fa-podcast text-xs text-brand-gold"></i> Sermones
+                </button>
+                <button onclick="scrollToDevocional()" id="nav-devocionales" class="px-3 py-1.5 rounded-md text-slate-200 hover:text-amber-300 whitespace-nowrap flex items-center gap-2">
+                    <i class="fa-solid fa-sun text-xs text-brand-gold"></i> Devocionales
+                </button>
+            </div>
+        </nav>
+    </header>
 
-      <div class="card">
-        <div>
-          <div class="card-icon"><i class="fa-solid fa-heart"></i></div>
-          <h3>Devocionales</h3>
-          <p>Lecturas para fortalecer tu fe día a día con versículos y aplicaciones prácticas para la vida.</p>
-        </div>
-        <span class="btn btn-disabled">Próximamente</span>
-      </div>
+    <!-- VIEW 1: HOME PAGE VIEW -->
+    <div id="view-home" class="view-section transition-all duration-300">
+        
+        <!-- Hero Section -->
+        <section class="hero-bg text-white py-16 sm:py-24 px-4 sm:px-6 text-center border-b border-brand-gold/30 relative">
+            <div class="max-w-4xl mx-auto space-y-5">
+                <div class="inline-flex items-center space-x-2 bg-brand-gold/20 backdrop-blur-md border border-brand-gold/40 text-amber-300 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase">
+                    <i class="fa-solid fa-star text-[10px]"></i>
+                    <span>Portal Cristiano de Consulta Libre</span>
+                </div>
+                <h2 class="text-3xl sm:text-5xl font-extrabold font-heading tracking-wider leading-tight text-white drop-shadow-md">
+                    EXPLORA LA PALABRA DE DIOS
+                </h2>
+                <p class="text-base sm:text-xl text-slate-200 max-w-2xl mx-auto font-serif italic drop-shadow">
+                    "Recursos Bíblicos, Comentarios Teológicos y Estudios para Tu Crecimiento Espiritual."
+                </p>
+                <div class="pt-4 flex flex-wrap justify-center gap-4">
+                    <button onclick="showView('reader')" class="px-6 py-3 bg-gradient-to-r from-brand-gold to-amber-600 hover:from-amber-600 hover:to-brand-gold text-brand-deepNavy font-bold text-sm rounded-xl shadow-lg transform hover:-translate-y-0.5 transition flex items-center space-x-2">
+                        <i class="fa-solid fa-book-open"></i>
+                        <span>Comenzar Lectura Bíblica</span>
+                    </button>
+                    <button onclick="openBookModal()" class="px-6 py-3 bg-slate-800/80 hover:bg-slate-800 border border-slate-600 text-white font-semibold text-sm rounded-xl backdrop-blur-sm transition flex items-center space-x-2">
+                        <i class="fa-solid fa-list-check"></i>
+                        <span>Explorar 66 Libros</span>
+                    </button>
+                </div>
+            </div>
+        </section>
 
+        <!-- PORTAL CARDS GRID (6 Interactive Portals from Screenshot) -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl font-bold font-heading text-brand-navy dark:text-white">Portales y Secciones de Estudio</h3>
+                <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Selecciona un portal para acceder directamente a sus materiales</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+                
+                <!-- Card 1: Antiguo Testamento -->
+                <div class="bg-white dark:bg-brand-darkCard rounded-2xl p-5 shadow-sm hover:shadow-xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between text-center transition group hover:-translate-y-1">
+                    <div class="space-y-3">
+                        <div class="w-14 h-14 mx-auto bg-amber-50 dark:bg-amber-950/40 text-brand-amberGold rounded-2xl flex items-center justify-center group-hover:scale-110 transition shadow-inner">
+                            <i class="fa-solid fa-scroll text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 dark:text-white text-base">Antiguo Testamento</h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">39 Libros, Historias de la Creación, Leyes y Profetas.</p>
+                    </div>
+                    <button onclick="openTestamentModal('antiguo')" class="mt-6 w-full py-2.5 bg-brand-navy hover:bg-brand-blue dark:bg-slate-800 dark:hover:bg-brand-blue text-white text-xs font-bold rounded-xl transition shadow">
+                        EXPLORAR
+                    </button>
+                </div>
+
+                <!-- Card 2: Nuevo Testamento -->
+                <div class="bg-white dark:bg-brand-darkCard rounded-2xl p-5 shadow-sm hover:shadow-xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between text-center transition group hover:-translate-y-1">
+                    <div class="space-y-3">
+                        <div class="w-14 h-14 mx-auto bg-amber-50 dark:bg-amber-950/40 text-brand-amberGold rounded-2xl flex items-center justify-center group-hover:scale-110 transition shadow-inner">
+                            <i class="fa-solid fa-cross text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 dark:text-white text-base">Nuevo Testamento</h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Vida de Jesús, los Evangelios, Epístolas y Apocalipsis.</p>
+                    </div>
+                    <button onclick="openTestamentModal('nuevo')" class="mt-6 w-full py-2.5 bg-brand-navy hover:bg-brand-blue dark:bg-slate-800 dark:hover:bg-brand-blue text-white text-xs font-bold rounded-xl transition shadow">
+                        VER MÁS
+                    </button>
+                </div>
+
+                <!-- Card 3: Estudios Bíblicos -->
+                <div class="bg-white dark:bg-brand-darkCard rounded-2xl p-5 shadow-sm hover:shadow-xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between text-center transition group hover:-translate-y-1">
+                    <div class="space-y-3">
+                        <div class="w-14 h-14 mx-auto bg-amber-50 dark:bg-amber-950/40 text-brand-amberGold rounded-2xl flex items-center justify-center group-hover:scale-110 transition shadow-inner">
+                            <i class="fa-solid fa-graduation-cap text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 dark:text-white text-base">Estudios Bíblicos</h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Análisis en profundidad, exégesis, versículo por versículo.</p>
+                    </div>
+                    <button onclick="showView('reader'); showSideTab('comentarios');" class="mt-6 w-full py-2.5 bg-brand-navy hover:bg-brand-blue dark:bg-slate-800 dark:hover:bg-brand-blue text-white text-xs font-bold rounded-xl transition shadow">
+                        EXPLORAR
+                    </button>
+                </div>
+
+                <!-- Card 4: Recursos y Descargas -->
+                <div class="bg-white dark:bg-brand-darkCard rounded-2xl p-5 shadow-sm hover:shadow-xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between text-center transition group hover:-translate-y-1">
+                    <div class="space-y-3">
+                        <div class="w-14 h-14 mx-auto bg-amber-50 dark:bg-amber-950/40 text-brand-amberGold rounded-2xl flex items-center justify-center group-hover:scale-110 transition shadow-inner">
+                            <i class="fa-solid fa-file-pdf text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 dark:text-white text-base">Recursos & PDFs</h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Guías imprimibles, mapas bíblicos y cuadernos de estudio.</p>
+                    </div>
+                    <button onclick="showView('reader'); showSideTab('recursos');" class="mt-6 w-full py-2.5 bg-brand-navy hover:bg-brand-blue dark:bg-slate-800 dark:hover:bg-brand-blue text-white text-xs font-bold rounded-xl transition shadow">
+                        EXPLORAR
+                    </button>
+                </div>
+
+                <!-- Card 5: Sermones y Prédicas -->
+                <div class="bg-white dark:bg-brand-darkCard rounded-2xl p-5 shadow-sm hover:shadow-xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between text-center transition group hover:-translate-y-1">
+                    <div class="space-y-3">
+                        <div class="w-14 h-14 mx-auto bg-amber-50 dark:bg-amber-950/40 text-brand-amberGold rounded-2xl flex items-center justify-center group-hover:scale-110 transition shadow-inner">
+                            <i class="fa-solid fa-volume-high text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 dark:text-white text-base">Sermones y Audios</h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Enseñanzas expositivas en audio y video con bosquejos.</p>
+                    </div>
+                    <button onclick="showView('reader'); showSideTab('sermon');" class="mt-6 w-full py-2.5 bg-brand-navy hover:bg-brand-blue dark:bg-slate-800 dark:hover:bg-brand-blue text-white text-xs font-bold rounded-xl transition shadow">
+                        VER MÁS
+                    </button>
+                </div>
+
+                <!-- Card 6: Devocionales Diarios -->
+                <div class="bg-white dark:bg-brand-darkCard rounded-2xl p-5 shadow-sm hover:shadow-xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between text-center transition group hover:-translate-y-1">
+                    <div class="space-y-3">
+                        <div class="w-14 h-14 mx-auto bg-amber-50 dark:bg-amber-950/40 text-brand-amberGold rounded-2xl flex items-center justify-center group-hover:scale-110 transition shadow-inner">
+                            <i class="fa-solid fa-sun text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 dark:text-white text-base">Devocional Diario</h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Inspiración y palabra diaria para tu tiempo de oración.</p>
+                    </div>
+                    <button onclick="scrollToDevocional()" class="mt-6 w-full py-2.5 bg-brand-navy hover:bg-brand-blue dark:bg-slate-800 dark:hover:bg-brand-blue text-white text-xs font-bold rounded-xl transition shadow">
+                        VER MÁS
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Featured Daily Devotional Banner -->
+        <section id="devocionalSection" class="max-w-7xl mx-auto px-4 sm:px-6 my-8">
+            <div class="bg-gradient-to-r from-brand-navy via-slate-900 to-brand-deepNavy rounded-3xl p-6 sm:p-10 text-white shadow-2xl relative overflow-hidden border border-brand-gold/30">
+                <div class="absolute right-0 top-0 opacity-10 pointer-events-none transform translate-x-12 -translate-y-12">
+                    <i class="fa-solid fa-sun text-[280px] text-amber-300"></i>
+                </div>
+
+                <div class="relative z-10 max-w-3xl space-y-4">
+                    <div class="flex items-center space-x-2 text-brand-gold font-bold text-xs uppercase tracking-wider">
+                        <i class="fa-solid fa-sun"></i>
+                        <span>Devocional del Día • 24 de Septiembre</span>
+                    </div>
+                    <h3 class="text-2xl sm:text-4xl font-serif font-bold text-white leading-tight">
+                        La Luz que Prevalece sobre las Tinieblas
+                    </h3>
+                    <p class="text-sm sm:text-base text-slate-300 font-serif italic leading-relaxed">
+                        "Y dijo Dios: Sea la luz; y fue la luz. Y vio Dios que la luz era buena..." (Génesis 1:3-4)
+                    </p>
+                    <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">
+                        En los momentos de confusión o vacío, la Palabra de Dios no solo pronuncia instrucción; infunde luz creativa. Hoy podés confiar en que la misma voz que ordenó los cielos tiene el poder de traer paz y propósito a tu situación presente.
+                    </p>
+                    <div class="pt-2 flex items-center space-x-4">
+                        <button onclick="selectBook('Génesis', 1)" class="px-5 py-2.5 bg-brand-gold hover:bg-amber-600 text-brand-deepNavy font-bold text-xs rounded-xl transition flex items-center gap-2 shadow">
+                            <i class="fa-solid fa-book"></i> Leer Génesis 1 Completo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
-    <!-- SECCIÓN INTEGRADA: Escuela Dominical -->
-    <div id="escuela-dominical-seccion" style="padding-top: 20px;">
-      
-      <h2 class="section-title"><i class="fa-solid fa-child-reaching"></i> Escuela Dominical - Recursos y Archivos</h2>
-
-      <!-- Panel de Carga de Supabase con los colores correctos -->
-      <div class="admin-panel">
-        <h3><i class="fa-solid fa-cloud-arrow-up" style="color: var(--secondary);"></i> Panel de Carga de Recursos</h3>
+    <!-- VIEW 2: INTERACTIVE BIBLE READER & STUDY PORTAL (Left: Reader, Right: Sidebar) -->
+    <div id="view-reader" class="view-section hidden flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 transition-all duration-300">
         
-        <input type="file" id="file-input" accept=".pdf,.mp3,.mp4,.doc,.docx" />
-        <button onclick="subirArchivo()" class="upload-btn">
-          Subir Archivo a la Nube
-        </button>
-        
-        <p id="status-msg" style="margin-top: 10px; color: #fef08a; font-weight: 500;"></p>
+        <!-- BIBLE NAV CONTROL BAR (Book/Chapter Picker, Font Controls, Speech) -->
+        <div class="bg-white dark:bg-brand-darkCard rounded-2xl p-3 shadow-sm border border-slate-200 dark:border-slate-800 mb-6 flex flex-wrap items-center justify-between gap-3">
+            
+            <!-- Book & Chapter Pickers -->
+            <div class="flex items-center space-x-2 flex-wrap gap-y-2">
+                <!-- Select Book Button -->
+                <button onclick="openBookModal()" class="flex items-center space-x-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 font-bold text-xs sm:text-sm transition">
+                    <i class="fa-solid fa-book text-brand-gold"></i>
+                    <span id="currentBookLabel">Génesis</span>
+                    <i class="fa-solid fa-chevron-down text-xs text-slate-400 ml-1"></i>
+                </button>
 
-        <h4 style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 10px; color: white;">Archivos Disponibles para Todos:</h4>
-        <ul id="lista-archivos" style="list-style: none; padding: 0; margin-top: 10px;"></ul>
-      </div>
+                <!-- Chapter Selector Dropdown -->
+                <div class="flex items-center space-x-1.5">
+                    <span class="text-slate-500 dark:text-slate-400 font-bold text-xs uppercase">Cap:</span>
+                    <select id="chapterSelect" onchange="changeChapter(this.value)" class="bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-100 font-bold rounded-xl px-3 py-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-gold cursor-pointer">
+                        <!-- Populated dynamically -->
+                    </select>
+                </div>
 
-      <!-- Explorador de Libros Bíblicos -->
-      <div class="bible-box">
-        <p><strong>Explorador Bíblico para Niños:</strong> Selecciona un libro para ver las historias clave adaptadas para la clase:</p>
-        
-        <h4 style="margin-top: 15px; color: var(--secondary);"><i class="fa-solid fa-scroll"></i> Antiguo Testamento</h4>
-        <div class="bible-grid">
-          <div class="bible-item">Génesis</div>
-          <div class="bible-item">Éxodo</div>
-          <div class="bible-item">Josué</div>
-          <div class="bible-item">Jueces</div>
-          <div class="bible-item">1 Samuel</div>
-          <div class="bible-item">Daniel</div>
-          <div class="bible-item">Jonás</div>
+                <!-- Navigation Previous / Next -->
+                <div class="flex items-center space-x-1 border-l border-slate-200 dark:border-slate-700 pl-2">
+                    <button onclick="navigateChapter(-1)" title="Capítulo Anterior" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition">
+                        <i class="fa-solid fa-chevron-left text-xs"></i>
+                    </button>
+                    <button onclick="navigateChapter(1)" title="Capítulo Siguiente" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition">
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Reading Customization Tools -->
+            <div class="flex items-center space-x-3 sm:space-x-4">
+                <!-- Text Size Adjuster -->
+                <div class="flex items-center bg-slate-100 dark:bg-slate-800 rounded-xl p-1 border border-slate-200 dark:border-slate-700">
+                    <button onclick="changeFontSize(-1)" class="px-2 py-1 text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 rounded-lg" title="Achicar Texto">A-</button>
+                    <span id="fontSizeDisplay" class="px-2 text-xs font-semibold text-slate-500">18px</span>
+                    <button onclick="changeFontSize(1)" class="px-2 py-1 text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 rounded-lg" title="Agrandar Texto">A+</button>
+                </div>
+
+                <!-- Font Style Switcher -->
+                <button onclick="toggleFontFamily()" class="text-xs px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-font mr-1 text-brand-gold"></i> <span id="fontLabel">Serif</span>
+                </button>
+
+                <!-- Audio Narration Reader Button -->
+                <button id="audioBtn" onclick="toggleAudio()" class="flex items-center space-x-2 px-3.5 py-2 rounded-xl bg-brand-gold hover:bg-amber-600 text-brand-deepNavy font-bold text-xs shadow transition">
+                    <i class="fa-solid fa-volume-high"></i>
+                    <span id="audioText">Escuchar Audio</span>
+                </button>
+            </div>
         </div>
 
-        <h4 style="margin-top: 20px; color: #16a34a;"><i class="fa-solid fa-cross"></i> Nuevo Testamento</h4>
-        <div class="bible-grid">
-          <div class="bible-item">Mateo</div>
-          <div class="bible-item">Marcos</div>
-          <div class="bible-item">Lucas</div>
-          <div class="bible-item">Juan</div>
-          <div class="bible-item">Hechos</div>
-        </div>
-      </div>
+        <!-- TWO COLUMNS LAYOUT -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
+            <!-- LEFT COLUMN: Bible Verse Text Reader (8 cols on lg) -->
+            <section class="lg:col-span-8 flex flex-col space-y-6">
+                
+                <!-- Chapter Heading Card -->
+                <div class="bg-white dark:bg-brand-darkCard rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800 flex justify-between items-start">
+                    <div>
+                        <span id="testamentTag" class="text-[11px] font-bold tracking-wider text-brand-gold uppercase bg-amber-50 dark:bg-amber-950/40 px-3 py-1 rounded-md border border-amber-200/50 dark:border-amber-900/30">
+                            Antiguo Testamento
+                        </span>
+                        <h2 id="chapterHeading" class="text-3xl sm:text-4xl font-serif font-bold text-brand-navy dark:text-white mt-2">
+                            Génesis 1
+                        </h2>
+                        <p id="chapterSub" class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                            La Creación del cielo y de la tierra • Versión <span id="currentVersionLabel">Reina-Valera 1960</span>
+                        </p>
+                    </div>
+                    
+                    <div class="flex items-center space-x-2">
+                        <button onclick="bookmarkChapter()" title="Guardar Marcador" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-brand-gold hover:border-brand-gold transition">
+                            <i id="bookmarkIcon" class="fa-regular fa-bookmark text-lg"></i>
+                        </button>
+                        <button onclick="copyChapterText()" title="Copiar texto del capítulo" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-brand-gold hover:border-brand-gold transition">
+                            <i class="fa-regular fa-copy text-lg"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Bible Verses Container -->
+                <div class="bg-white dark:bg-brand-darkCard rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 dark:border-slate-800 relative">
+                    
+                    <!-- Verse Selection Floating Toolbar -->
+                    <div id="verseToolbar" class="hidden sticky top-20 z-30 mb-6 bg-brand-navy text-white p-3 rounded-2xl shadow-2xl flex items-center justify-between border border-brand-gold/40 animate-fade-in">
+                        <span class="text-xs font-semibold pl-2"><span id="selectedVerseCount">1</span> versículo(s) seleccionado(s)</span>
+                        <div class="flex items-center space-x-1.5">
+                            <button onclick="highlightSelected('yellow')" class="w-6 h-6 rounded-full bg-yellow-300 hover:scale-110 transition shadow" title="Resaltar Amarillo"></button>
+                            <button onclick="highlightSelected('green')" class="w-6 h-6 rounded-full bg-emerald-300 hover:scale-110 transition shadow" title="Resaltar Verde"></button>
+                            <button onclick="highlightSelected('blue')" class="w-6 h-6 rounded-full bg-sky-300 hover:scale-110 transition shadow" title="Resaltar Azul"></button>
+                            <button onclick="clearHighlight()" class="text-xs text-slate-300 hover:text-white px-2 py-1"><i class="fa-solid fa-eraser"></i> Limpiar</button>
+                            <button onclick="copySelectedVerse()" class="text-xs bg-brand-gold px-3 py-1 rounded-lg text-brand-deepNavy font-bold ml-2 hover:bg-amber-500"><i class="fa-regular fa-copy"></i> Copiar</button>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Verses Text Block -->
+                    <div id="bibleTextContainer" class="font-reader leading-relaxed space-y-4 text-slate-800 dark:text-slate-200 text-lg transition-all">
+                        <!-- Verses injected by JavaScript -->
+                    </div>
+
+                    <!-- Bottom Prev/Next Buttons -->
+                    <div class="mt-10 pt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                        <button onclick="navigateChapter(-1)" class="flex items-center space-x-2 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 font-bold text-xs sm:text-sm transition">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span>Capítulo Anterior</span>
+                        </button>
+                        <button onclick="navigateChapter(1)" class="flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-brand-navy hover:bg-brand-blue dark:bg-brand-blue text-white font-bold text-xs sm:text-sm transition shadow">
+                            <span>Capítulo Siguiente</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RIGHT COLUMN: Study Sidebar & Interactive Resource Tabs (4 cols on lg) -->
+            <aside class="lg:col-span-4 space-y-6">
+                
+                <!-- Main Interactive Study Card -->
+                <div class="bg-white dark:bg-brand-darkCard rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden sticky top-24">
+                    
+                    <!-- Sidebar Tab Switcher -->
+                    <div class="flex border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 p-1">
+                        <button onclick="showSideTab('comentarios')" id="sidetab-comentarios" class="flex-1 py-2.5 text-center text-xs font-bold rounded-xl bg-white dark:bg-slate-700 text-brand-navy dark:text-amber-300 shadow-sm transition">
+                            <i class="fa-solid fa-book-bookmark text-brand-gold"></i> Exégesis
+                        </button>
+                        <button onclick="showSideTab('recursos')" id="sidetab-recursos" class="flex-1 py-2.5 text-center text-xs font-bold rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-800 transition">
+                            <i class="fa-solid fa-file-pdf"></i> Guías PDF
+                        </button>
+                        <button onclick="showSideTab('sermon')" id="sidetab-sermon" class="flex-1 py-2.5 text-center text-xs font-bold rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-800 transition">
+                            <i class="fa-solid fa-video"></i> Sermón
+                        </button>
+                        <button onclick="showSideTab('notas')" id="sidetab-notas" class="flex-1 py-2.5 text-center text-xs font-bold rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-800 transition">
+                            <i class="fa-solid fa-pen-to-square"></i> Mis Notas
+                        </button>
+                    </div>
+
+                    <!-- SIDE CONTENT 1: Exegesis & Theological Commentaries -->
+                    <div id="sideContent-comentarios" class="p-5 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                                <i class="fa-solid fa-comments text-brand-gold"></i>
+                                Comentario Teológico
+                            </h3>
+                            <span class="text-[10px] bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded font-mono border border-amber-200/50">Matthew Henry</span>
+                        </div>
+
+                        <div id="commentaryBox" class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-3 bg-amber-50/40 dark:bg-amber-950/20 p-4 rounded-xl border border-amber-200/50 dark:border-amber-900/30">
+                            <!-- Injected by JS -->
+                        </div>
+
+                        <!-- Key Topics Badges -->
+                        <div class="pt-2">
+                            <h4 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Temas Clave de este Pasaje:</h4>
+                            <div id="passageTags" class="flex flex-wrap gap-1.5">
+                                <span class="text-[11px] bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700">Creación</span>
+                                <span class="text-[11px] bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700">Soberanía Divine</span>
+                                <span class="text-[11px] bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700">Principios</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SIDE CONTENT 2: Downloadable PDFs & Maps -->
+                    <div id="sideContent-recursos" class="hidden p-5 space-y-4">
+                        <h3 class="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-file-arrow-down text-brand-gold"></i>
+                            Guías de Estudio Descargables
+                        </h3>
+                        <p class="text-xs text-slate-500">Materiales académicos y pastorales en formato PDF listos para imprimir o descargar.</p>
+
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 hover:border-brand-gold transition">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fa-solid fa-file-pdf text-red-500 text-xl"></i>
+                                    <div>
+                                        <h4 class="text-xs font-bold text-slate-800 dark:text-slate-200" id="pdfTitle1">Guía Exegética Génesis</h4>
+                                        <span class="text-[10px] text-slate-400">PDF • 2.4 MB</span>
+                                    </div>
+                                </div>
+                                <button onclick="downloadResource('Guia_Exegetica_Capitulo.pdf')" class="text-xs bg-brand-navy hover:bg-brand-blue dark:bg-brand-blue text-white px-3 py-1.5 rounded-lg font-bold transition">
+                                    Descargar
+                                </button>
+                            </div>
+
+                            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 hover:border-brand-gold transition">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fa-solid fa-map-location-dot text-amber-500 text-xl"></i>
+                                    <div>
+                                        <h4 class="text-xs font-bold text-slate-800 dark:text-slate-200">Mapa de Contexto Histórico</h4>
+                                        <span class="text-[10px] text-slate-400">PDF alta res • 4.8 MB</span>
+                                    </div>
+                                </div>
+                                <button onclick="downloadResource('Mapa_Historico_Biblico.pdf')" class="text-xs bg-brand-navy hover:bg-brand-blue dark:bg-brand-blue text-white px-3 py-1.5 rounded-lg font-bold transition">
+                                    Descargar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SIDE CONTENT 3: Audio/Video Sermon Player -->
+                    <div id="sideContent-sermon" class="hidden p-5 space-y-4">
+                        <h3 class="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-podcast text-brand-gold"></i>
+                            Sermón Expositivo Relacionado
+                        </h3>
+
+                        <!-- Player Card -->
+                        <div class="bg-gradient-to-br from-brand-navy to-slate-900 text-white rounded-2xl p-4 shadow-lg space-y-3">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-full bg-brand-gold text-brand-deepNavy flex items-center justify-center font-bold">
+                                    <i class="fa-solid fa-podcast"></i>
+                                </div>
+                                <div>
+                                    <h4 id="sermonTitle" class="text-xs font-bold text-amber-300">En el Principio: El Orden Creador</h4>
+                                    <span class="text-[10px] text-slate-300">Pr. Carlos Mendoza • 38 min</span>
+                                </div>
+                            </div>
+
+                            <!-- Audio Progress Bar Visual -->
+                            <div class="space-y-1">
+                                <div class="w-full bg-slate-700 h-1.5 rounded-full overflow-hidden cursor-pointer" onclick="seekSermonBar(event)">
+                                    <div id="sermonProgressBar" class="bg-brand-gold h-full w-1/3 transition-all duration-200"></div>
+                                </div>
+                                <div class="flex justify-between text-[10px] text-slate-400 font-mono">
+                                    <span id="sermonCurrentTime">12:45</span>
+                                    <span>38:10</span>
+                                </div>
+                            </div>
+
+                            <!-- Control Buttons -->
+                            <div class="flex items-center justify-center space-x-5 pt-1">
+                                <button onclick="seekSermon(-10)" class="text-slate-300 hover:text-white text-sm"><i class="fa-solid fa-backward-step"></i></button>
+                                <button onclick="toggleSermonPlay()" id="sermonPlayBtn" class="w-10 h-10 rounded-full bg-brand-gold text-brand-deepNavy flex items-center justify-center hover:bg-amber-400 transition font-bold shadow-md">
+                                    <i class="fa-solid fa-play"></i>
+                                </button>
+                                <button onclick="seekSermon(10)" class="text-slate-300 hover:text-white text-sm"><i class="fa-solid fa-forward-step"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SIDE CONTENT 4: Notebook / Personal Notes -->
+                    <div id="sideContent-notas" class="hidden p-5 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                                <i class="fa-solid fa-note-sticky text-brand-gold"></i>
+                                Cuaderno de Notas
+                            </h3>
+                            <span id="saveStatus" class="text-[10px] text-emerald-500 hidden font-bold"><i class="fa-solid fa-check"></i> Guardado</span>
+                        </div>
+
+                        <textarea id="personalNotes" oninput="autoSaveNotes()" placeholder="Escribe aquí tus observaciones, reflexiones o versículos clave de este capítulo..." 
+                            class="w-full h-44 p-3 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-gold text-slate-800 dark:text-slate-200 resize-none font-sans leading-relaxed"></textarea>
+                        
+                        <button onclick="saveNotesExplicit()" class="w-full py-2.5 bg-brand-navy hover:bg-brand-blue dark:bg-brand-blue text-white text-xs font-bold rounded-xl transition shadow">
+                            Guardar Nota en este Capítulo
+                        </button>
+                    </div>
+
+                </div>
+            </aside>
+        </div>
     </div>
 
-  </main>
+    <!-- MODAL: BIBLE BOOK SELECTOR (66 Canon Books) -->
+    <div id="bookModal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-brand-darkCard rounded-3xl max-w-4xl w-full max-h-[85vh] flex flex-col shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden animate-fade-in">
+            
+            <!-- Modal Header -->
+            <div class="p-5 bg-brand-navy text-white flex justify-between items-center border-b border-slate-700">
+                <div class="flex items-center space-x-3">
+                    <i class="fa-solid fa-book-bible text-brand-gold text-2xl"></i>
+                    <div>
+                        <h3 class="text-lg font-bold font-heading">Seleccionar Libro de la Biblia</h3>
+                        <p class="text-xs text-slate-300">Explora los 66 libros canónicos ordenados por testamentos y categorías</p>
+                    </div>
+                </div>
+                <button onclick="closeBookModal()" class="text-slate-300 hover:text-white text-xl p-1.5 rounded-lg hover:bg-slate-800 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
 
-  <!-- Script de conexión con Supabase -->
-  <script>
-    const SUPABASE_URL = 'https://TU-PROYECTO.supabase.co';
-    const SUPABASE_ANON_KEY = 'TU_ANON_KEY_AQUI';
+            <!-- Modal Filter Buttons -->
+            <div class="flex border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/80 px-6 py-3 space-x-2 overflow-x-auto">
+                <button onclick="filterModalTestament('todos')" id="filter-todos" class="px-3.5 py-1.5 text-xs font-bold rounded-lg bg-brand-navy text-white shadow">Todos (66)</button>
+                <button onclick="filterModalTestament('antiguo')" id="filter-antiguo" class="px-3.5 py-1.5 text-xs font-bold rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-300">Antiguo Testamento (39)</button>
+                <button onclick="filterModalTestament('nuevo')" id="filter-nuevo" class="px-3.5 py-1.5 text-xs font-bold rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-300">Nuevo Testamento (27)</button>
+            </div>
 
-    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            <!-- Modal Grid Container -->
+            <div class="p-6 overflow-y-auto flex-1 space-y-6" id="modalBooksContainer">
+                <!-- Injected dynamically by JavaScript -->
+            </div>
+        </div>
+    </div>
 
-    async function subirArchivo() {
-      const fileInput = document.getElementById('file-input');
-      const statusMsg = document.getElementById('status-msg');
-      const file = fileInput.files[0];
+    <!-- FOOTER -->
+    <footer class="bg-brand-navy text-slate-400 text-xs mt-16 border-t border-slate-800 py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="space-y-3">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-book-bible text-brand-gold text-xl"></i>
+                    <span class="text-white font-bold text-base tracking-tight font-heading">BIBLIA Abierta</span>
+                </div>
+                <p class="text-slate-400 leading-relaxed">
+                    Plataforma abierta dedicada a la enseñanza, lectura exegética y consulta de la Sagrada Escritura con herramientas de estudio interactivo.
+                </p>
+            </div>
 
-      if (!file) {
-        statusMsg.innerText = 'Por favor, seleccioná un archivo primero.';
-        return;
-      }
+            <div>
+                <h4 class="text-white font-bold mb-3 uppercase tracking-wider text-[11px]">Secciones Principales</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" onclick="openTestamentModal('antiguo')" class="hover:text-brand-gold transition">Antiguo Testamento</a></li>
+                    <li><a href="#" onclick="openTestamentModal('nuevo')" class="hover:text-brand-gold transition">Nuevo Testamento</a></li>
+                    <li><a href="#" onclick="showView('reader'); showSideTab('comentarios');" class="hover:text-brand-gold transition">Estudios Teológicos</a></li>
+                    <li><a href="#" onclick="showView('reader'); showSideTab('recursos');" class="hover:text-brand-gold transition">Descargas PDF</a></li>
+                </ul>
+            </div>
 
-      statusMsg.innerText = 'Subiendo archivo...';
+            <div>
+                <h4 class="text-white font-bold mb-3 uppercase tracking-wider text-[11px]">Herramientas de Lectura</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" onclick="showView('reader')" class="hover:text-brand-gold transition">Lector Interactivos de Versículos</a></li>
+                    <li><a href="#" onclick="showView('reader'); showSideTab('notas')" class="hover:text-brand-gold transition">Cuaderno de Notas Personales</a></li>
+                    <li><a href="#" onclick="showView('reader'); showSideTab('sermon')" class="hover:text-brand-gold transition">Sermones y Audios Expositivos</a></li>
+                </ul>
+            </div>
 
-      const fileName = `${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+            <div>
+                <h4 class="text-white font-bold mb-3 uppercase tracking-wider text-[11px]">Boletín Devocional</h4>
+                <p class="mb-2 text-[11px]">Recibe reflexiones diarias y planes de lectura directamente en tu correo.</p>
+                <div class="flex gap-1.5">
+                    <input type="email" placeholder="Tu e-mail..." class="bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-lg text-white text-xs flex-1 focus:outline-none focus:border-brand-gold">
+                    <button onclick="alert('¡Gracias por suscribirte al boletín devocional!')" class="bg-brand-gold text-brand-deepNavy px-3.5 py-1.5 rounded-lg font-bold text-xs hover:bg-amber-400 transition">Unirse</button>
+                </div>
+            </div>
+        </div>
 
-      const { data, error } = await _supabase.storage
-        .from('recursos')
-        .upload(fileName, file);
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-6 mt-8 border-t border-slate-800/80 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p>© 2026 Biblia Abierta - Portal de Lectura y Recursos Bíblicos. Acceso Libre.</p>
+            <div class="flex space-x-4 text-base">
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-youtube"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-spotify"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
 
-      if (error) {
-        statusMsg.innerText = 'Error al subir: ' + error.message;
-      } else {
-        statusMsg.innerText = '¡Archivo subido con éxito!';
-        fileInput.value = '';
-        cargarArchivos();
-      }
-    }
+    <!-- JAVASCRIPT APP LOGIC -->
+    <script>
+        // CANONICAL BIBLE BOOKS DATABASE (66 Books)
+        const BIBLE_BOOKS = [
+            // Antiguo Testamento (Pentateuco)
+            { name: "Génesis", testament: "antiguo", chapters: 50, category: "Pentateuco" },
+            { name: "Éxodo", testament: "antiguo", chapters: 40, category: "Pentateuco" },
+            { name: "Levítico", testament: "antiguo", chapters: 27, category: "Pentateuco" },
+            { name: "Números", testament: "antiguo", chapters: 36, category: "Pentateuco" },
+            { name: "Deuteronomio", testament: "antiguo", chapters: 34, category: "Pentateuco" },
+            
+            // Históricos
+            { name: "Josué", testament: "antiguo", chapters: 24, category: "Históricos" },
+            { name: "Jueces", testament: "antiguo", chapters: 21, category: "Históricos" },
+            { name: "Rut", testament: "antiguo", chapters: 4, category: "Históricos" },
+            { name: "1 Samuel", testament: "antiguo", chapters: 31, category: "Históricos" },
+            { name: "2 Samuel", testament: "antiguo", chapters: 24, category: "Históricos" },
+            { name: "1 Reyes", testament: "antiguo", chapters: 22, category: "Históricos" },
+            { name: "2 Reyes", testament: "antiguo", chapters: 25, category: "Históricos" },
 
-    async function cargarArchivos() {
-      const lista = document.getElementById('lista-archivos');
-      if (!lista) return;
-      lista.innerHTML = 'Cargando lista...';
+            // Poéticos
+            { name: "Salmos", testament: "antiguo", chapters: 150, category: "Poéticos" },
+            { name: "Proverbios", testament: "antiguo", chapters: 31, category: "Poéticos" },
+            { name: "Eclesiastés", testament: "antiguo", chapters: 12, category: "Poéticos" },
+            { name: "Cantares", testament: "antiguo", chapters: 8, category: "Poéticos" },
 
-      const { data, error } = await _supabase.storage
-        .from('recursos')
-        .list('', { limit: 100, sortBy: { column: 'created_at', order: 'desc' } });
+            // Profetas
+            { name: "Isaías", testament: "antiguo", chapters: 66, category: "Profetas Mayores" },
+            { name: "Jeremías", testament: "antiguo", chapters: 52, category: "Profetas Mayores" },
+            { name: "Lamentaciones", testament: "antiguo", chapters: 5, category: "Profetas Mayores" },
+            { name: "Ezequiel", testament: "antiguo", chapters: 48, category: "Profetas Mayores" },
+            { name: "Daniel", testament: "antiguo", chapters: 12, category: "Profetas Mayores" },
 
-      if (error) {
-        lista.innerHTML = 'Error al obtener la lista de archivos.';
-        return;
-      }
+            // Nuevo Testamento (Evangelios)
+            { name: "Mateo", testament: "nuevo", chapters: 28, category: "Evangelios" },
+            { name: "Marcos", testament: "nuevo", chapters: 16, category: "Evangelios" },
+            { name: "Lucas", testament: "nuevo", chapters: 24, category: "Evangelios" },
+            { name: "Juan", testament: "nuevo", chapters: 21, category: "Evangelios" },
+            
+            // Histórico NT
+            { name: "Hechos", testament: "nuevo", chapters: 28, category: "Histórico NT" },
 
-      lista.innerHTML = '';
+            // Epístolas Paulinas
+            { name: "Romanos", testament: "nuevo", chapters: 16, category: "Epístolas Paulinas" },
+            { name: "1 Corintios", testament: "nuevo", chapters: 16, category: "Epístolas Paulinas" },
+            { name: "2 Corintios", testament: "nuevo", chapters: 13, category: "Epístolas Paulinas" },
+            { name: "Gálatas", testament: "nuevo", chapters: 6, category: "Epístolas Paulinas" },
+            { name: "Efesios", testament: "nuevo", chapters: 6, category: "Epístolas Paulinas" },
+            { name: "Filipenses", testament: "nuevo", chapters: 4, category: "Epístolas Paulinas" },
+            { name: "Colosenses", testament: "nuevo", chapters: 4, category: "Epístolas Paulinas" },
+            { name: "1 Timoteo", testament: "nuevo", chapters: 6, category: "Epístolas Paulinas" },
 
-      if (data.length === 0) {
-        lista.innerHTML = '<li style="color: #cbd5e1; font-size: 0.9rem;">No hay archivos subidos todavía.</li>';
-        return;
-      }
+            // Epístolas Generales & Apocalipsis
+            { name: "Hebreos", testament: "nuevo", chapters: 13, category: "Epístolas Generales" },
+            { name: "Santiago", testament: "nuevo", chapters: 5, category: "Epístolas Generales" },
+            { name: "1 Pedro", testament: "nuevo", chapters: 5, category: "Epístolas Generales" },
+            { name: "Apocalipsis", testament: "nuevo", chapters: 22, category: "Profecía NT" }
+        ];
 
-      data.forEach(item => {
-        const { data: publicUrlData } = _supabase.storage
-          .from('recursos')
-          .getPublicUrl(item.name);
+        // CHAPTER TEXTS SAMPLE DATABASE
+        const CHAPTER_CONTENTS = {
+            "Génesis": {
+                1: [
+                    "En el principio creó Dios los cielos y la tierra.",
+                    "Y la tierra estaba desordenada y vacía, y las tinieblas estaban sobre la faz del abismo, y el Espíritu de Dios se movía sobre la faz de las aguas.",
+                    "Y dijo Dios: Sea la luz; y fue la luz.",
+                    "Y vio Dios que la luz era buena; y separó Dios la luz de las tinieblas.",
+                    "Y llamó Dios a la luz Día, y a las tinieblas llamó Noche. Y fue la tarde y la mañana un día.",
+                    "Luego dijo Dios: Haya expansión en medio de las aguas, y separe las aguas de las aguas.",
+                    "E hizo Dios la expansión, y separó las aguas que estaban debajo de la expansión, de las aguas que estaban sobre la expansión. Y fue así.",
+                    "Y llamó Dios a la expansión Cielos. Y fue la tarde y la mañana el día segundo.",
+                    "Dijo también Dios: Júntense las aguas que están debajo de los cielos en un lugar, y descúbrase lo seco. Y fue así.",
+                    "Y llamó Dios a lo seco Tierra, y a la reunión de las aguas llamó Mares. Y vio Dios que era bueno."
+                ],
+                2: [
+                    "Fueron, pues, acabados los cielos y la tierra, y todo el ejército de ellos.",
+                    "Y acabó Dios en el día séptimo la obra que hizo; y reposó el día séptimo de toda la obra que hizo.",
+                    "Y bendijo Dios al día séptimo, y lo santificó, porque en él reposó de toda la obra que había hecho en la creación."
+                ]
+            },
+            "Salmos": {
+                23: [
+                    "Jehová es mi pastor; nada me faltará.",
+                    "En lugares de delicados pastos me hará descansar; junto a aguas de reposo me pastoreará.",
+                    "Confortará mi alma; me guiará por sendas de justicia por amor de su nombre.",
+                    "Aunque ande en valle de sombra de muerte, no temeré mal alguno, porque tú estarás conmigo; tu vara y tu cayado me infundirán aliento.",
+                    "Aderezas mesa delante de mí en presencia de mis angustiadores; unges mi cabeza con aceite; mi copa está rebosando.",
+                    "Ciertamente el bien y la misericordia me seguirán todos los días de mi vida, y en la casa de Jehová moraré por largos días."
+                ]
+            },
+            "Juan": {
+                1: [
+                    "En el principio era el Verbo, y el Verbo era con Dios, y el Verbo era Dios.",
+                    "Este era en el principio con Dios.",
+                    "Todas las cosas por él fueron hechas, y sin él nada de lo que ha sido hecho, fue hecho.",
+                    "En él estaba la vida, y la vida era la luz de los hombres.",
+                    "La luz en las tinieblas resplandece, y las tinieblas no prevalecieron contra ella."
+                ],
+                3: [
+                    "Había un hombre de los fariseos que se llamaba Nicodemo, un dignatario de los judíos.",
+                    "Este vino a Jesús de noche, y le dijo: Rabí, sabemos que has venido de Dios como maestro; porque nadie puede hacer estas señales que tú haces, si no está Dios con él.",
+                    "Respondió Jesús y le dijo: De cierto, de cierto te digo, que el que no naciere de nuevo, no puede ver el reino de Dios.",
+                    "Porque de tal manera amó Dios al mundo, que ha dado a su Hijo unigénito, para que todo aquel que en él cree, no se pierda, mas tenga vida eterna."
+                ]
+            }
+        };
 
-        const li = document.createElement('li');
-        li.className = 'file-item';
-        li.innerHTML = `
-          <span style="font-size: 0.9rem; word-break: break-all; margin-right: 10px; color: white;">${item.name.split('_').slice(1).join('_') || item.name}</span>
-          <a href="${publicUrlData.publicUrl}" target="_blank" download style="background: var(--secondary); color: white; padding: 4px 10px; border-radius: 4px; text-decoration: none; font-size: 12px; white-space: nowrap; font-weight: bold;">
-            Descargar
-          </a>
-        `;
-        lista.appendChild(li);
-      });
-    }
+        // EXEGESIS & COMMENTARY DATABASE
+        const COMMENTARIES_DB = {
+            "Génesis 1": "Génesis 1 establece el cimiento teológico de toda la Escritura. Dios revela su autoexistencia y poder supremo para ordenar el caos mediante su Palabra hablada ('Y dijo Dios'). El patrón creativo demuestra diseño, propósito y la bondad de la creación.",
+            "Salmos 23": "Un salmo de profunda confianza en la provisión, protección y guía de Dios. David utiliza la metáfora del pastor oriental para ilustrar la cercanía de Dios en los momentos de abundancia y en las pruebas más oscuras.",
+            "Juan 1": "El prólogo del Evangelio de Juan identifica a Jesucristo como el 'Logos' eterno. En lugar de comenzar con un nacimiento terrenal, Juan se remonta a la eternidad pasada para enfatizar la deidad absoluta de Cristo.",
+            "Juan 3": "Jesús enseña a Nicodemo sobre la necesidad espiritual del nuevo nacimiento mediante el Espíritu Santo. El versículo 16 condensa la esencia del plan redentor de Dios para la humanidad."
+        };
 
-    document.addEventListener('DOMContentLoaded', cargarArchivos);
-  </script>
+        // APP STATE MANAGEMENT
+        let currentState = {
+            view: "home",
+            book: "Génesis",
+            chapter: 1,
+            version: "RVR1960",
+            selectedVerses: [],
+            fontSize: 18,
+            fontFamily: "serif",
+            isDarkMode: false,
+            isPlayingAudio: false,
+            isPlayingSermon: false,
+            isBookmarked: false
+        };
 
-  <!-- Footer Original -->
-  <footer>
-    <p>&copy; ASAMBLEA DE DIOS - Todos los derechos reservados.</p>
-  </footer>
+        // INITIALIZATION
+        window.addEventListener('DOMContentLoaded', () => {
+            loadChapter(currentState.book, currentState.chapter);
+            renderBookModal();
+            updateChapterSelectDropdown();
+            loadNotesForChapter();
+        });
 
+        // VIEW NAVIGATION CONTROLLER
+        function showView(viewName) {
+            currentState.view = viewName;
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById(`view-${viewName}`);
+            if (target) target.classList.remove('hidden');
+
+            // Scroll smoothly to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // LOAD BIBLE CHAPTER TEXT
+        function loadChapter(bookName, chapterNum) {
+            currentState.book = bookName;
+            currentState.chapter = parseInt(chapterNum);
+            currentState.selectedVerses = [];
+            hideVerseToolbar();
+
+            const bookData = BIBLE_BOOKS.find(b => b.name === bookName) || BIBLE_BOOKS[0];
+            
+            // Update UI Labels
+            document.getElementById('currentBookLabel').innerText = bookName;
+            document.getElementById('chapterHeading').innerText = `${bookName} ${chapterNum}`;
+            document.getElementById('testamentTag').innerText = bookData.testament === 'antiguo' ? 'Antiguo Testamento' : 'Nuevo Testamento';
+
+            // Populate Verses
+            const container = document.getElementById('bibleTextContainer');
+            container.innerHTML = '';
+
+            const verses = (CHAPTER_CONTENTS[bookName] && CHAPTER_CONTENTS[bookName][chapterNum]) 
+                ? CHAPTER_CONTENTS[bookName][chapterNum] 
+                : generateFallbackVerses(bookName, chapterNum);
+
+            verses.forEach((verseText, index) => {
+                const vNum = index + 1;
+                const verseEl = document.createElement('div');
+                verseEl.className = 'verse-item p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800/80 cursor-pointer transition flex items-start space-x-3 group';
+                verseEl.dataset.verseNum = vNum;
+                verseEl.onclick = () => toggleSelectVerse(vNum, verseEl);
+
+                verseEl.innerHTML = `
+                    <span class="text-xs font-bold font-sans text-brand-gold select-none mt-1 min-w-[22px] text-right font-mono">${vNum}</span>
+                    <span class="verse-text flex-1 leading-relaxed">${verseText}</span>
+                `;
+                container.appendChild(verseEl);
+            });
+
+            // Update Commentary Box
+            const key = `${bookName} ${chapterNum}`;
+            const commBox = document.getElementById('commentaryBox');
+            commBox.innerText = COMMENTARIES_DB[key] || `Este capítulo (${key}) explora los atributos de Dios, su pacto divino y las aplicaciones para la vida cristiana. Consulta materiales adicionales en las guías PDF.`;
+
+            // Update Download PDF Title
+            document.getElementById('pdfTitle1').innerText = `Guía de Estudio ${bookName} Cap. ${chapterNum}`;
+            document.getElementById('sermonTitle').innerText = `${bookName} ${chapterNum}: Exposición Bíblica`;
+
+            updateChapterSelectDropdown();
+            loadNotesForChapter();
+        }
+
+        function generateFallbackVerses(book, ch) {
+            return [
+                `Versículo 1 del capítulo ${ch} de ${book}. Texto de la Sagrada Escritura para meditación y estudio teológico.`,
+                `Versículo 2: La Palabra de Dios permanece para siempre y alumbra el camino de los justos.`,
+                `Versículo 3: Lámpara es a mis pies tu palabra, y lumbrera a mi camino en medio de cualquier prueba.`,
+                `Versículo 4: Bienaventurados los que guardan sus mandamientos y le buscan de todo corazón.`,
+                `Versículo 5: Permanece en su gracia y darás fruto abundante para su gloria.`
+            ];
+        }
+
+        // VERSE SELECTION & TOOLBAR
+        function toggleSelectVerse(vNum, element) {
+            const index = currentState.selectedVerses.indexOf(vNum);
+            if (index > -1) {
+                currentState.selectedVerses.splice(index, 1);
+                element.classList.remove('bg-amber-100', 'dark:bg-amber-950/50', 'ring-2', 'ring-brand-gold');
+            } else {
+                currentState.selectedVerses.push(vNum);
+                element.classList.add('bg-amber-100', 'dark:bg-amber-950/50', 'ring-2', 'ring-brand-gold');
+            }
+
+            if (currentState.selectedVerses.length > 0) {
+                document.getElementById('selectedVerseCount').innerText = currentState.selectedVerses.length;
+                document.getElementById('verseToolbar').classList.remove('hidden');
+            } else {
+                hideVerseToolbar();
+            }
+        }
+
+        function hideVerseToolbar() {
+            document.getElementById('verseToolbar').classList.add('hidden');
+        }
+
+        function highlightSelected(color) {
+            const colorClasses = {
+                yellow: 'bg-yellow-200 dark:bg-yellow-900/70 text-slate-900 dark:text-white',
+                green: 'bg-emerald-200 dark:bg-emerald-900/70 text-slate-900 dark:text-white',
+                blue: 'bg-sky-200 dark:bg-sky-900/70 text-slate-900 dark:text-white'
+            };
+
+            currentState.selectedVerses.forEach(vNum => {
+                const el = document.querySelector(`.verse-item[data-verse-num="${vNum}"] .verse-text`);
+                if (el) {
+                    el.className = `verse-text flex-1 px-1 rounded-md ${colorClasses[color]}`;
+                }
+            });
+        }
+
+        function clearHighlight() {
+            currentState.selectedVerses.forEach(vNum => {
+                const el = document.querySelector(`.verse-item[data-verse-num="${vNum}"] .verse-text`);
+                if (el) {
+                    el.className = `verse-text flex-1 leading-relaxed`;
+                }
+            });
+        }
+
+        function copySelectedVerse() {
+            const texts = currentState.selectedVerses.sort((a,b)=>a-b).map(vNum => {
+                const el = document.querySelector(`.verse-item[data-verse-num="${vNum}"] .verse-text`);
+                return `${vNum}. ${el.innerText}`;
+            });
+            const fullText = `${currentState.book} ${currentState.chapter}:${currentState.selectedVerses.join(',')}\n` + texts.join('\n');
+            
+            // Clipboard fallback
+            const tempInput = document.createElement('textarea');
+            tempInput.value = fullText;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            alert('Versículo(s) copiado(s) al portapapeles.');
+        }
+
+        // CHAPTER NAVIGATION & DROPDOWNS
+        function updateChapterSelectDropdown() {
+            const bookData = BIBLE_BOOKS.find(b => b.name === currentState.book) || BIBLE_BOOKS[0];
+            const select = document.getElementById('chapterSelect');
+            select.innerHTML = '';
+            for (let i = 1; i <= bookData.chapters; i++) {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.innerText = i;
+                if (i === currentState.chapter) opt.selected = true;
+                select.appendChild(opt);
+            }
+        }
+
+        function changeChapter(chNum) {
+            loadChapter(currentState.book, parseInt(chNum));
+        }
+
+        function navigateChapter(direction) {
+            const bookData = BIBLE_BOOKS.find(b => b.name === currentState.book) || BIBLE_BOOKS[0];
+            let newCh = currentState.chapter + direction;
+
+            if (newCh >= 1 && newCh <= bookData.chapters) {
+                loadChapter(currentState.book, newCh);
+            } else if (newCh < 1) {
+                const currIdx = BIBLE_BOOKS.findIndex(b => b.name === currentState.book);
+                if (currIdx > 0) {
+                    const prevBook = BIBLE_BOOKS[currIdx - 1];
+                    loadChapter(prevBook.name, prevBook.chapters);
+                }
+            } else if (newCh > bookData.chapters) {
+                const currIdx = BIBLE_BOOKS.findIndex(b => b.name === currentState.book);
+                if (currIdx < BIBLE_BOOKS.length - 1) {
+                    const nextBook = BIBLE_BOOKS[currIdx + 1];
+                    loadChapter(nextBook.name, 1);
+                }
+            }
+        }
+
+        function selectBook(bookName, chapter = 1) {
+            showView('reader');
+            loadChapter(bookName, chapter);
+        }
+
+        // BOOK SELECTION MODAL
+        function openBookModal() {
+            document.getElementById('bookModal').classList.remove('hidden');
+        }
+
+        function closeBookModal() {
+            document.getElementById('bookModal').classList.add('hidden');
+        }
+
+        function openTestamentModal(testament) {
+            openBookModal();
+            filterModalTestament(testament);
+        }
+
+        function renderBookModal(filter = 'todos') {
+            const container = document.getElementById('modalBooksContainer');
+            container.innerHTML = '';
+
+            const filtered = BIBLE_BOOKS.filter(b => filter === 'todos' || b.testament === filter);
+            const categories = [...new Set(filtered.map(b => b.category))];
+
+            categories.forEach(cat => {
+                const catGroup = document.createElement('div');
+                catGroup.className = 'space-y-2';
+
+                catGroup.innerHTML = `
+                    <h4 class="text-xs font-bold text-brand-gold uppercase tracking-wider font-heading">${cat}</h4>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
+                        ${filtered.filter(b => b.category === cat).map(b => `
+                            <button onclick="selectBookFromModal('${b.name}')" class="p-3 text-left rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-brand-navy hover:text-white dark:hover:bg-brand-blue transition border border-slate-200 dark:border-slate-700 flex justify-between items-center group shadow-sm">
+                                <span class="text-xs font-bold">${b.name}</span>
+                                <span class="text-[10px] text-slate-400 group-hover:text-amber-300 font-mono">${b.chapters} cap</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(catGroup);
+            });
+        }
+
+        function filterModalTestament(testament) {
+            ['todos', 'antiguo', 'nuevo'].forEach(t => {
+                const btn = document.getElementById(`filter-${t}`);
+                if (t === testament) {
+                    btn.className = "px-3.5 py-1.5 text-xs font-bold rounded-lg bg-brand-navy text-white shadow";
+                } else {
+                    btn.className = "px-3.5 py-1.5 text-xs font-bold rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-300";
+                }
+            });
+            renderBookModal(testament);
+        }
+
+        function selectBookFromModal(bookName) {
+            closeBookModal();
+            selectBook(bookName, 1);
+        }
+
+        // GLOBAL SEARCH ENGINE
+        function handleGlobalSearch(e) {
+            const query = e.target.value.toLowerCase().trim();
+            const resultsBox = document.getElementById('searchResults');
+            const clearBtn = document.getElementById('clearSearchBtn');
+
+            if (query.length > 0) {
+                clearBtn.classList.remove('hidden');
+                resultsBox.classList.remove('hidden');
+
+                const matches = BIBLE_BOOKS.filter(b => b.name.toLowerCase().includes(query));
+
+                resultsBox.innerHTML = `
+                    <div class="p-2 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Libros Coincidentes</div>
+                    ${matches.length > 0 ? matches.map(m => `
+                        <div onclick="clearGlobalSearch(); selectBook('${m.name}', 1);" class="p-2.5 text-xs hover:bg-amber-50 dark:hover:bg-slate-700 cursor-pointer rounded-lg flex justify-between text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-700/50">
+                            <span class="font-bold text-brand-navy dark:text-amber-300">${m.name}</span>
+                            <span class="text-slate-400 text-[10px]">${m.testament === 'antiguo' ? 'Antiguo Testamento' : 'Nuevo Testamento'} (${m.chapters} Cap)</span>
+                        </div>
+                    `).join('') : '<div class="p-3 text-xs text-slate-400 text-center">Sin resultados. Intenta buscando "Génesis", "Salmos" o "Juan".</div>'}
+                `;
+            } else {
+                clearGlobalSearch();
+            }
+        }
+
+        function clearGlobalSearch() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('searchResults').classList.add('hidden');
+            document.getElementById('clearSearchBtn').classList.add('hidden');
+        }
+
+        // TEXT DISPLAY & READER TOOLS
+        function changeFontSize(delta) {
+            currentState.fontSize = Math.max(14, Math.min(26, currentState.fontSize + delta));
+            document.getElementById('fontSizeDisplay').innerText = `${currentState.fontSize}px`;
+            document.getElementById('bibleTextContainer').style.fontSize = `${currentState.fontSize}px`;
+        }
+
+        function toggleFontFamily() {
+            const fontLabel = document.getElementById('fontLabel');
+            const container = document.getElementById('bibleTextContainer');
+            if (currentState.fontFamily === 'serif') {
+                currentState.fontFamily = 'sans';
+                fontLabel.innerText = 'Sans';
+                container.style.fontFamily = "'Inter', sans-serif";
+            } else {
+                currentState.fontFamily = 'serif';
+                fontLabel.innerText = 'Serif';
+                container.style.fontFamily = "'Lora', serif";
+            }
+        }
+
+        function changeVersion(versionCode) {
+            currentState.version = versionCode;
+            document.getElementById('currentVersionLabel').innerText = 
+                versionCode === 'RVR1960' ? 'Reina-Valera 1960' :
+                versionCode === 'NVI' ? 'Nueva Versión Internacional' : 'Traducción Lenguaje Actual';
+            loadChapter(currentState.book, currentState.chapter);
+        }
+
+        function toggleDarkMode() {
+            currentState.isDarkMode = !currentState.isDarkMode;
+            const icon = document.getElementById('themeIcon');
+            if (currentState.isDarkMode) {
+                document.documentElement.classList.add('dark');
+                icon.className = 'fa-solid fa-sun text-amber-400 text-lg';
+            } else {
+                document.documentElement.classList.remove('dark');
+                icon.className = 'fa-solid fa-moon text-lg';
+            }
+        }
+
+        // AUDIO NARRATION SPEECH SYNTHESIS
+        function toggleAudio() {
+            currentState.isPlayingAudio = !currentState.isPlayingAudio;
+            const btnText = document.getElementById('audioText');
+            if (currentState.isPlayingAudio) {
+                btnText.innerText = 'Pausar Narración';
+                if ('speechSynthesis' in window) {
+                    const text = Array.from(document.querySelectorAll('.verse-text')).map(el => el.innerText).join('. ');
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'es-ES';
+                    utterance.onend = () => toggleAudio();
+                    window.speechSynthesis.speak(utterance);
+                }
+            } else {
+                btnText.innerText = 'Escuchar Audio';
+                if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            }
+        }
+
+        // SIDEBAR STUDY TABS
+        function showSideTab(tabName) {
+            showView('reader');
+            ['comentarios', 'recursos', 'sermon', 'notas'].forEach(t => {
+                const btn = document.getElementById(`sidetab-${t}`);
+                const content = document.getElementById(`sideContent-${t}`);
+                if (t === tabName) {
+                    btn.className = "flex-1 py-2.5 text-center text-xs font-bold rounded-xl bg-white dark:bg-slate-700 text-brand-navy dark:text-amber-300 shadow-sm transition";
+                    content.classList.remove('hidden');
+                } else {
+                    btn.className = "flex-1 py-2.5 text-center text-xs font-bold rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-800 transition";
+                    content.classList.add('hidden');
+                }
+            });
+        }
+
+        function bookmarkChapter() {
+            currentState.isBookmarked = !currentState.isBookmarked;
+            const icon = document.getElementById('bookmarkIcon');
+            if (currentState.isBookmarked) {
+                icon.className = 'fa-solid fa-bookmark text-lg text-brand-gold';
+                alert(`Capítulo ${currentState.book} ${currentState.chapter} guardado en tus marcadores.`);
+            } else {
+                icon.className = 'fa-regular fa-bookmark text-lg';
+            }
+        }
+
+        function copyChapterText() {
+            const verses = Array.from(document.querySelectorAll('.verse-item')).map(el => el.innerText).join('\n');
+            const tempInput = document.createElement('textarea');
+            tempInput.value = `${currentState.book} ${currentState.chapter}\n\n` + verses;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            alert('Capítulo completo copiado al portapapeles.');
+        }
+
+        function downloadResource(filename) {
+            alert(`Iniciando descarga del archivo: ${filename}\n(Recurso bíblico preparado en PDF)`);
+        }
+
+        // AUTOSAVE PERSONAL NOTES
+        function autoSaveNotes() {
+            const key = `note_${currentState.book}_${currentState.chapter}`;
+            const text = document.getElementById('personalNotes').value;
+            localStorage.setItem(key, text);
+
+            const status = document.getElementById('saveStatus');
+            status.classList.remove('hidden');
+            setTimeout(() => status.classList.add('hidden'), 2000);
+        }
+
+        function saveNotesExplicit() {
+            autoSaveNotes();
+            alert('Tus notas fueron guardadas correctamente para este capítulo.');
+        }
+
+        function loadNotesForChapter() {
+            const key = `note_${currentState.book}_${currentState.chapter}`;
+            const saved = localStorage.getItem(key) || '';
+            document.getElementById('personalNotes').value = saved;
+        }
+
+        // SERMON AUDIO PLAYER SIMULATION
+        function toggleSermonPlay() {
+            currentState.isPlayingSermon = !currentState.isPlayingSermon;
+            const btn = document.getElementById('sermonPlayBtn');
+            if (btn) {
+                btn.innerHTML = currentState.isPlayingSermon ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play"></i>';
+            }
+        }
+
+        const SERMON_TOTAL_DURATION = 300; // Ejemplo: 5 minutos
+
+        function seekSermon(seconds) {
+            const bar = document.getElementById('sermonProgressBar');
+            if (bar) bar.style.width = '65%';
+        }
+
+        function seekSermonBar(e) {
+            const rect = e.currentTarget.getBoundingClientRect();
+            if (rect.width === 0) return;
+            const pct = ((e.clientX - rect.left) / rect.width) * 100;
+            const bar = document.getElementById('sermonProgressBar');
+            if (bar) bar.style.width = pct + '%';
+        }
+
+        function scrollToDevocional() {
+            if (typeof showView === 'function') showView('home');
+            setTimeout(function() {
+                const el = document.getElementById('devocionalSection');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
+    </script>
 </body>
 </html>
