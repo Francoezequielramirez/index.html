@@ -27,6 +27,7 @@
       background-color: var(--bg);
       color: var(--text);
       line-height: 1.6;
+      scroll-behavior: smooth;
     }
 
     nav {
@@ -100,6 +101,9 @@
       margin-bottom: 1.5rem;
       border-left: 5px solid var(--secondary);
       padding-left: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .grid {
@@ -124,6 +128,23 @@
       transform: translateY(-5px);
       box-shadow: 0 10px 20px rgba(0,0,0,0.1);
     }
+
+    .tag {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      width: fit-content;
+    }
+
+    .tag-at { background: #fef3c7; color: #b45309; }
+    .tag-nt { background: #dcfce7; color: #15803d; }
+    .tag-game { background: #fef3c7; color: #b45309; }
+    .tag-craft { background: #fce7f3; color: #be185d; }
 
     .card-icon {
       font-size: 2.2rem;
@@ -174,6 +195,40 @@
       pointer-events: none;
     }
 
+    .bible-box {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    .bible-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .bible-item {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .bible-item:hover {
+      background: var(--primary);
+      color: white;
+    }
+
     footer {
       background: #0f172a;
       color: #94a3b8;
@@ -186,25 +241,29 @@
 </head>
 <body>
 
+  <!-- Navegación Original -->
   <nav>
     <a href="index.html" class="logo">
       <i class="fa-solid fa-church"></i> ASAMBLEA DE DIOS
     </a>
     <ul class="nav-links">
       <li><a href="index.html">Inicio</a></li>
-      <li><a href="escuela-dominical.html">Escuela Dominical</a></li>
+      <li><a href="#escuela-dominical-seccion">Escuela Dominical</a></li>
     </ul>
   </nav>
 
+  <!-- Hero Original -->
   <header class="hero">
     <h1>Bienvenido a ASAMBLEA DE DIOS</h1>
     <p>Recursos bíblicos, lecciones e imprimibles para el ministerio, maestros y estudio personal.</p>
   </header>
 
   <main class="container">
+    
+    <!-- Tarjetas de Categorías Principales (Tu diseño original) -->
     <h2 class="section-title">Nuestras Secciones</h2>
 
-    <div class="grid">
+    <div class="grid" style="margin-bottom: 3rem;">
 
       <div class="card">
         <div>
@@ -212,8 +271,8 @@
           <h3>Escuela Dominical</h3>
           <p>Encuentra lecciones bíblicas, juegos rompehielos, manualidades paso a paso y material imprimible para niños.</p>
         </div>
-        <a href="escuela-dominical.html" class="btn btn-secondary">
-          Explorar Recursos <i class="fa-solid fa-arrow-right"></i>
+        <a href="#escuela-dominical-seccion" class="btn btn-secondary">
+          Explorar Recursos <i class="fa-solid fa-arrow-down"></i>
         </a>
       </div>
 
@@ -236,8 +295,124 @@
       </div>
 
     </div>
+
+    <!-- SECCIÓN INTEGRADA: Escuela Dominical con todo su contenido completo -->
+    <div id="escuela-dominical-seccion" style="padding-top: 20px;">
+      
+      <h2 class="section-title"><i class="fa-solid fa-child-reaching"></i> Sección Escuela Dominical</h2>
+
+      <!-- Explorador de Libros Bíblicos -->
+      <div class="bible-box">
+        <p><strong>Explorador Bíblico para Niños:</strong> Selecciona un libro para ver las historias clave adaptadas para la clase:</p>
+        
+        <h4 style="margin-top: 15px; color: var(--secondary);"><i class="fa-solid fa-scroll"></i> Antiguo Testamento</h4>
+        <div class="bible-grid">
+          <div class="bible-item">Génesis</div>
+          <div class="bible-item">Éxodo</div>
+          <div class="bible-item">Josué</div>
+          <div class="bible-item">Jueces</div>
+          <div class="bible-item">1 Samuel</div>
+          <div class="bible-item">Daniel</div>
+          <div class="bible-item">Jonás</div>
+        </div>
+
+        <h4 style="margin-top: 20px; color: #16a34a;"><i class="fa-solid fa-cross"></i> Nuevo Testamento</h4>
+        <div class="bible-grid">
+          <div class="bible-item">Mateo</div>
+          <div class="bible-item">Marcos</div>
+          <div class="bible-item">Lucas</div>
+          <div class="bible-item">Juan</div>
+          <div class="bible-item">Hechos</div>
+        </div>
+      </div>
+
+      <!-- Lecciones Imprimibles -->
+      <h2 class="section-title"><i class="fa-solid fa-book-bible"></i> Lecciones e Imprimibles por Edades</h2>
+      <div class="grid" style="margin-bottom: 2.5rem;">
+        <div class="card">
+          <div>
+            <span class="tag tag-at">4 a 7 años • Génesis</span>
+            <div class="card-icon"><i class="fa-solid fa-ship"></i></div>
+            <h3>El Arca de Noé</h3>
+            <p>La historia de la promesa de Dios con guión fácil, versículo clave y hojas para colorear.</p>
+          </div>
+          <a href="#" class="btn"><i class="fa-solid fa-download"></i> Próximamente PDF</a>
+        </div>
+
+        <div class="card">
+          <div>
+            <span class="tag tag-at">8 a 12 años • 1 Samuel</span>
+            <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <h3>David y Goliat</h3>
+            <p>Lección sobre la valentía y la fe con preguntas de análisis y sopa de letras.</p>
+          </div>
+          <a href="#" class="btn"><i class="fa-solid fa-download"></i> Próximamente PDF</a>
+        </div>
+
+        <div class="card">
+          <div>
+            <span class="tag tag-nt">Todas las edades • Lucas</span>
+            <div class="card-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+            <h3>El Buen Samaritano</h3>
+            <p>Enseñanza sobre la compasión y el amor al prójimo con dinámicas en clase.</p>
+          </div>
+          <a href="#" class="btn"><i class="fa-solid fa-download"></i> Próximamente PDF</a>
+        </div>
+      </div>
+
+      <!-- Juegos y Dinámicas -->
+      <h2 class="section-title"><i class="fa-solid fa-gamepad"></i> Juegos Rompehielos y Dinámicas</h2>
+      <div class="grid" style="margin-bottom: 2.5rem;">
+        <div class="card">
+          <div>
+            <span class="tag tag-game">Dinámica Grupal</span>
+            <div class="card-icon"><i class="fa-solid fa-puzzle-piece"></i></div>
+            <h3>La Cadena de Versículos</h3>
+            <p>Juego en equipo para fijar en la memoria la cita bíblica del día de forma interactiva.</p>
+          </div>
+          <a href="#" class="btn"><i class="fa-solid fa-file-alt"></i> Ver Instrucciones</a>
+        </div>
+
+        <div class="card">
+          <div>
+            <span class="tag tag-game">Rompehielos</span>
+            <div class="card-icon"><i class="fa-solid fa-masks-theater"></i></div>
+            <h3>Búsqueda del Tesoro Bíblico</h3>
+            <p>Pistas basadas en los personajes bíblicos para motivar e integrar a los niños.</p>
+          </div>
+          <a href="#" class="btn"><i class="fa-solid fa-file-alt"></i> Ver Instrucciones</a>
+        </div>
+      </div>
+
+      <!-- Manualidades -->
+      <h2 class="section-title"><i class="fa-solid fa-scissors"></i> Manualidades Paso a Paso</h2>
+      <div class="grid">
+        <div class="card">
+          <div>
+            <span class="tag tag-craft">Materiales Reciclados</span>
+            <div class="card-icon"><i class="fa-solid fa-lightbulb"></i></div>
+            <h3>Lámpara de la Fe (Salmo 119:105)</h3>
+            <p>Manualidad en cartulina y papel para recordar que la Palabra guía nuestro camino.</p>
+          </div>
+          <a href="#" class="btn"><i class="fa-solid fa-download"></i> Descargar Plantilla</a>
+        </div>
+
+        <div class="card">
+          <div>
+            <span class="tag tag-craft">Recortable</span>
+            <div class="card-icon"><i class="fa-solid fa-hands-praying"></i></div>
+            <h3>Manos que Oran</h3>
+            <p>Ficha interactiva plegable para que cada niño anote sus peticiones semanales.</p>
+          </div>
+          <a href="#" class="btn"><i class="fa-solid fa-download"></i> Descargar Plantilla</a>
+        </div>
+      </div>
+
+    </div>
+
   </main>
 
+  <!-- Footer Original -->
   <footer>
     <p>&copy; ASAMBLEA DE DIOS - Todos los derechos reservados.</p>
   </footer>
