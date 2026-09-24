@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ASAMBLEA DE DIOS | Portal de Recursos</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Cargar el SDK cliente de Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
       --primary: #1e3a8a;
@@ -260,7 +262,7 @@
 
   <main class="container">
     
-    <!-- Tarjetas de Categorías Principales (Tu diseño original) -->
+    <!-- Tarjetas de Categorías Principales -->
     <h2 class="section-title">Nuestras Secciones</h2>
 
     <div class="grid" style="margin-bottom: 3rem;">
@@ -296,10 +298,25 @@
 
     </div>
 
-    <!-- SECCIÓN INTEGRADA: Escuela Dominical con todo su contenido completo -->
+    <!-- SECCIÓN INTEGRADA: Escuela Dominical con Panel de Supabase -->
     <div id="escuela-dominical-seccion" style="padding-top: 20px;">
       
       <h2 class="section-title"><i class="fa-solid fa-child-reaching"></i> Sección Escuela Dominical</h2>
+
+      <!-- Panel de Administración / Subida de Supabase -->
+      <div id="admin-panel" style="background: #1e293b; color: white; padding: 20px; border-radius: 8px; margin-bottom: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <h3 style="margin-top: 0; color: #f8fafc;"><i class="fa-solid fa-cloud-arrow-up"></i> Panel de Carga de Recursos</h3>
+        
+        <input type="file" id="file-input" accept=".pdf,.mp3,.mp4,.doc,.docx" style="margin-bottom: 10px; display: block; color: #cbd5e1;" />
+        <button onclick="subirArchivo()" style="background: #d97706; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background 0.2s;">
+          Subir Archivo a la Nube
+        </button>
+        
+        <p id="status-msg" style="margin-top: 10px; color: #fbbf24; font-weight: 500;"></p>
+
+        <h4 style="margin-top: 20px; border-top: 1px solid #334155; padding-top: 10px; color: #f8fafc;">Archivos Disponibles para Todos:</h4>
+        <ul id="lista-archivos" style="list-style: none; padding: 0; margin-top: 10px;"></ul>
+      </div>
 
       <!-- Explorador de Libros Bíblicos -->
       <div class="bible-box">
@@ -336,7 +353,7 @@
             <h3>El Arca de Noé</h3>
             <p>La historia de la promesa de Dios con guión fácil, versículo clave y hojas para colorear.</p>
           </div>
-          <a href="#" class="btn"><i class="fa-solid fa-download"></i> Próximamente PDF</a>
+          <a href="#" class="btn"><i class="fa-solid fa-download"></i> Descargar PDF</a>
         </div>
 
         <div class="card">
@@ -346,7 +363,7 @@
             <h3>David y Goliat</h3>
             <p>Lección sobre la valentía y la fe con preguntas de análisis y sopa de letras.</p>
           </div>
-          <a href="#" class="btn"><i class="fa-solid fa-download"></i> Próximamente PDF</a>
+          <a href="#" class="btn"><i class="fa-solid fa-download"></i> Descargar PDF</a>
         </div>
 
         <div class="card">
@@ -356,61 +373,94 @@
             <h3>El Buen Samaritano</h3>
             <p>Enseñanza sobre la compasión y el amor al prójimo con dinámicas en clase.</p>
           </div>
-          <a href="#" class="btn"><i class="fa-solid fa-download"></i> Próximamente PDF</a>
-        </div>
-      </div>
-
-      <!-- Juegos y Dinámicas -->
-      <h2 class="section-title"><i class="fa-solid fa-gamepad"></i> Juegos Rompehielos y Dinámicas</h2>
-      <div class="grid" style="margin-bottom: 2.5rem;">
-        <div class="card">
-          <div>
-            <span class="tag tag-game">Dinámica Grupal</span>
-            <div class="card-icon"><i class="fa-solid fa-puzzle-piece"></i></div>
-            <h3>La Cadena de Versículos</h3>
-            <p>Juego en equipo para fijar en la memoria la cita bíblica del día de forma interactiva.</p>
-          </div>
-          <a href="#" class="btn"><i class="fa-solid fa-file-alt"></i> Ver Instrucciones</a>
-        </div>
-
-        <div class="card">
-          <div>
-            <span class="tag tag-game">Rompehielos</span>
-            <div class="card-icon"><i class="fa-solid fa-masks-theater"></i></div>
-            <h3>Búsqueda del Tesoro Bíblico</h3>
-            <p>Pistas basadas en los personajes bíblicos para motivar e integrar a los niños.</p>
-          </div>
-          <a href="#" class="btn"><i class="fa-solid fa-file-alt"></i> Ver Instrucciones</a>
-        </div>
-      </div>
-
-      <!-- Manualidades -->
-      <h2 class="section-title"><i class="fa-solid fa-scissors"></i> Manualidades Paso a Paso</h2>
-      <div class="grid">
-        <div class="card">
-          <div>
-            <span class="tag tag-craft">Materiales Reciclados</span>
-            <div class="card-icon"><i class="fa-solid fa-lightbulb"></i></div>
-            <h3>Lámpara de la Fe (Salmo 119:105)</h3>
-            <p>Manualidad en cartulina y papel para recordar que la Palabra guía nuestro camino.</p>
-          </div>
-          <a href="#" class="btn"><i class="fa-solid fa-download"></i> Descargar Plantilla</a>
-        </div>
-
-        <div class="card">
-          <div>
-            <span class="tag tag-craft">Recortable</span>
-            <div class="card-icon"><i class="fa-solid fa-hands-praying"></i></div>
-            <h3>Manos que Oran</h3>
-            <p>Ficha interactiva plegable para que cada niño anote sus peticiones semanales.</p>
-          </div>
-          <a href="#" class="btn"><i class="fa-solid fa-download"></i> Descargar Plantilla</a>
+          <a href="#" class="btn"><i class="fa-solid fa-download"></i> Descargar PDF</a>
         </div>
       </div>
 
     </div>
 
   </main>
+
+  <!-- Script de conexión con Supabase -->
+  <script>
+    // 1. Datos de tu proyecto de Supabase (reemplaza con tus credenciales si cambiaste de proyecto)
+    const SUPABASE_URL = 'https://TU-PROYECTO.supabase.co';
+    const SUPABASE_ANON_KEY = 'TU_ANON_KEY_AQUI';
+
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // 2. Función para subir archivos al bucket "recursos"
+    async function subirArchivo() {
+      const fileInput = document.getElementById('file-input');
+      const statusMsg = document.getElementById('status-msg');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        statusMsg.innerText = 'Por favor, seleccioná un archivo primero.';
+        return;
+      }
+
+      statusMsg.innerText = 'Subiendo archivo...';
+
+      // Evitar caracteres especiales en el nombre
+      const fileName = `${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+
+      const { data, error } = await _supabase.storage
+        .from('recursos')
+        .upload(fileName, file);
+
+      if (error) {
+        statusMsg.innerText = 'Error al subir: ' + error.message;
+      } else {
+        statusMsg.innerText = '¡Archivo subido con éxito!';
+        fileInput.value = '';
+        cargarArchivos(); // Recargar la lista de descargas
+      }
+    }
+
+    // 3. Función para obtener la lista de archivos e insertar enlaces de descarga
+    async function cargarArchivos() {
+      const lista = document.getElementById('lista-archivos');
+      if (!lista) return;
+      lista.innerHTML = 'Cargando lista...';
+
+      const { data, error } = await _supabase.storage
+        .from('recursos')
+        .list('', { limit: 100, sortBy: { column: 'created_at', order: 'desc' } });
+
+      if (error) {
+        lista.innerHTML = 'Error al obtener la lista de archivos.';
+        return;
+      }
+
+      lista.innerHTML = '';
+
+      if (data.length === 0) {
+        lista.innerHTML = '<li style="color: #94a3b8; font-size: 0.9rem;">No hay archivos subidos todavía.</li>';
+        return;
+      }
+
+      data.forEach(item => {
+        // Obtener URL pública directa
+        const { data: publicUrlData } = _supabase.storage
+          .from('recursos')
+          .getPublicUrl(item.name);
+
+        const li = document.createElement('li');
+        li.style.cssText = 'margin-bottom: 8px; background: #334155; padding: 8px 12px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;';
+        li.innerHTML = `
+          <span style="font-size: 0.9rem; word-break: break-all; margin-right: 10px;">${item.name.split('_').slice(1).join('_') || item.name}</span>
+          <a href="${publicUrlData.publicUrl}" target="_blank" download style="background: #2563eb; color: white; padding: 4px 10px; border-radius: 4px; text-decoration: none; font-size: 12px; white-space: nowrap;">
+            Descargar
+          </a>
+        `;
+        lista.appendChild(li);
+      });
+    }
+
+    // Cargar lista automáticamente al abrir la página
+    document.addEventListener('DOMContentLoaded', cargarArchivos);
+  </script>
 
   <!-- Footer Original -->
   <footer>
