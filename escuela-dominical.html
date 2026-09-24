@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escuela Dominical | Biblia Abierta</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2b5b84;
+      --secondary: #e67e22;
+      --bg: #f4f7f6;
+      --card-bg: #ffffff;
+      --text: #333333;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, var(--primary), #1a365d);
+      color: white;
+      border-radius: 12px;
+      margin-bottom: 30px;
+    }
+
+    header h1 { margin: 0; font-size: 2.2rem; }
+    header p { margin-top: 10px; opacity: 0.9; }
+
+    /* Secciones principales */
+    .section-title {
+      border-bottom: 3px solid var(--secondary);
+      display: inline-block;
+      padding-bottom: 5px;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      color: var(--primary);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    /* Tarjetas de Contenido */
+    .card {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    }
+
+    .card-icon {
+      font-size: 2.5rem;
+      color: var(--secondary);
+      margin-bottom: 15px;
+    }
+
+    .card h3 { margin: 0 0 10px 0; color: var(--primary); }
+    .card p { font-size: 0.95rem; color: #666; line-height: 1.5; }
+
+    .tag {
+      display: inline-block;
+      background: #e1f0fa;
+      color: var(--primary);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .btn-download {
+      display: inline-block;
+      text-align: center;
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      padding: 10px;
+      border-radius: 6px;
+      margin-top: 15px;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+
+    .btn-download:hover {
+      background: #1d3d5a;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Encabezado -->
+    <header>
+      <h1><i class="fa-solid fa-child-reaching"></i> Recursos para Escuela Dominical</h1>
+      <p>Materiales lecciones bíblicas, juegos, manualidades y recursos imprimibles listos para usar.</p>
+    </header>
+
+    <!-- 1. Lecciones e Imprimibles -->
+    <h2 class="section-title"><i class="fa-solid fa-file-pdf"></i> Lecciones e Imprimibles</h2>
+    <div class="grid">
+      
+      <div class="card">
+        <div>
+          <span class="tag">4 a 7 años</span>
+          <div class="card-icon"><i class="fa-solid fa-ship"></i></div>
+          <h3>La Historia de Arca de Noé</h3>
+          <p>Lección completa con ilustraciones, guión para el maestro y hoja de colorear.</p>
+        </div>
+        <a href="#" class="btn-download"><i class="fa-solid fa-download"></i> Descargar PDF</a>
+      </div>
+
+      <div class="card">
+        <div>
+          <span class="tag">8 a 12 años</span>
+          <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+          <h3>David y Goliat: La Fe y la Confianza</h3>
+          <p>Estudio interactivo, sopa de letras y preguntas de reflexión para niños mayores.</p>
+        </div>
+        <a href="#" class="btn-download"><i class="fa-solid fa-download"></i> Descargar PDF</a>
+      </div>
+
+      <div class="card">
+        <div>
+          <span class="tag">Todas las edades</span>
+          <div class="card-icon"><i class="fa-solid fa-palette"></i></div>
+          <h3>Pack de Hojas para Colorear</h3>
+          <p>Colección de 10 dibujos con versículos bíblicos clave para memorizar.</p>
+        </div>
+        <a href="#" class="btn-download"><i class="fa-solid fa-download"></i> Descargar PDF</a>
+      </div>
+
+    </div>
+
+    <!-- 2. Dinámicas y Juegos -->
+    <h2 class="section-title"><i class="fa-solid fa-gamepad"></i> Juegos y Dinámicas</h2>
+    <div class="grid">
+      
+      <div class="card">
+        <div>
+          <span class="tag">Rompehielos</span>
+          <div class="card-icon"><i class="fa-solid fa-puzzle-piece"></i></div>
+          <h3>Trivia Bíblica por Equipos</h3>
+          <p>Tarjeta de preguntas rápidas con respuestas clasificadas por nivel de dificultad.</p>
+        </div>
+        <a href="#" class="btn-download"><i class="fa-solid fa-download"></i> Ver Juego</a>
+      </div>
+
+      <div class="card">
+        <div>
+          <span class="tag">Memorización</span>
+          <div class="card-icon"><i class="fa-solid fa-brain"></i></div>
+          <h3>El Espía del Versículo</h3>
+          <p>Dinámica activa para enseñar versículos bíblicos mediante pistas y movimientos.</p>
+        </div>
+        <a href="#" class="btn-download"><i class="fa-solid fa-download"></i> Ver Dinámica</a>
+      </div>
+
+    </div>
+
+    <!-- 3. Manualidades Creativas -->
+    <h2 class="section-title"><i class="fa-solid fa-scissors"></i> Manualidades Paso a Paso</h2>
+    <div class="grid">
+      
+      <div class="card">
+        <div>
+          <span class="tag">Material Reciclado</span>
+          <div class="card-icon"><i class="fa-solid fa-lightbulb"></i></div>
+          <h3>La Armadura de Dios</h3>
+          <p>Instrucciones paso a paso para construir un escudo y casco usando cartón y papel de aluminio.</p>
+        </div>
+        <a href="#" class="btn-download"><i class="fa-solid fa-eye"></i> Ver Galería y Guía</a>
+      </div>
+
+      <div class="card">
+        <div>
+          <span class="tag">Fácil y Rápido</span>
+          <div class="card-icon"><i class="fa-solid fa-bookmark"></i></div>
+          <h3>Marcadores de Biblia Creativos</h3>
+          <p>Plantillas imprimibles para recortar, colorear y regalar en clase.</p>
+        </div>
+        <a href="#" class="btn-download"><i class="fa-solid fa-download"></i> Descargar Plantilla</a>
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
