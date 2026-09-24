@@ -3,50 +3,87 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Escuela Dominical | Biblia Abierta</title>
+  <title>Escuela Dominical | ASAMBLEA DE DIOS</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --primary: #2b5b84;
-      --secondary: #e67e22;
-      --bg: #f4f7f6;
+      --primary: #1e3a8a;
+      --secondary: #d97706;
+      --bg: #f8fafc;
       --card-bg: #ffffff;
-      --text: #333333;
+      --text: #1e293b;
+      --text-muted: #64748b;
     }
 
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       background-color: var(--bg);
       color: var(--text);
-      margin: 0;
-      padding: 20px;
+      line-height: 1.6;
     }
+
+    nav {
+      background: var(--primary);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      color: white;
+      font-size: 1.4rem;
+      font-weight: bold;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #e2e8f0;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: #fef08a; }
+
+    .header-banner {
+      background: linear-gradient(135deg, var(--primary), #2563eb);
+      color: white;
+      text-align: center;
+      padding: 3rem 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .header-banner h1 { font-size: 2.2rem; margin-bottom: 0.5rem; }
+    .header-banner p { opacity: 0.9; font-size: 1.1rem; }
 
     .container {
       max-width: 1100px;
       margin: 0 auto;
+      padding: 0 20px 40px 20px;
     }
 
-    header {
-      text-align: center;
-      padding: 40px 20px;
-      background: linear-gradient(135deg, var(--primary), #1a365d);
-      color: white;
-      border-radius: 12px;
-      margin-bottom: 30px;
-    }
-
-    header h1 { margin: 0; font-size: 2.2rem; }
-    header p { margin-top: 10px; opacity: 0.9; }
-
-    /* Secciones principales */
     .section-title {
-      border-bottom: 3px solid var(--secondary);
-      display: inline-block;
-      padding-bottom: 5px;
-      margin-top: 40px;
-      margin-bottom: 20px;
+      font-size: 1.6rem;
       color: var(--primary);
+      margin: 2rem 0 1rem 0;
+      border-left: 5px solid var(--secondary);
+      padding-left: 10px;
     }
 
     .grid {
@@ -55,42 +92,39 @@
       gap: 20px;
     }
 
-    /* Tarjetas de Contenido */
     .card {
       background: var(--card-bg);
       border-radius: 10px;
       padding: 20px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid #e2e8f0;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      transition: transform 0.2s;
     }
 
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-    }
-
-    .card-icon {
-      font-size: 2.5rem;
-      color: var(--secondary);
-      margin-bottom: 15px;
-    }
-
-    .card h3 { margin: 0 0 10px 0; color: var(--primary); }
-    .card p { font-size: 0.95rem; color: #666; line-height: 1.5; }
+    .card:hover { transform: translateY(-4px); }
 
     .tag {
       display: inline-block;
-      background: #e1f0fa;
-      color: var(--primary);
-      padding: 4px 8px;
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 3px 8px;
       border-radius: 4px;
       font-size: 0.8rem;
       font-weight: bold;
       margin-bottom: 10px;
     }
+
+    .card-icon {
+      font-size: 2rem;
+      color: var(--secondary);
+      margin-bottom: 10px;
+    }
+
+    .card h3 { color: var(--primary); margin-bottom: 8px; }
+    .card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px; }
 
     .btn-download {
       display: inline-block;
@@ -100,115 +134,68 @@
       text-decoration: none;
       padding: 10px;
       border-radius: 6px;
-      margin-top: 15px;
-      font-weight: bold;
+      font-weight: 600;
       transition: background 0.2s;
     }
 
-    .btn-download:hover {
-      background: #1d3d5a;
+    .btn-download:hover { background: #2563eb; }
+
+    footer {
+      background: #0f172a;
+      color: #94a3b8;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    
-    <!-- Encabezado -->
-    <header>
-      <h1><i class="fa-solid fa-child-reaching"></i> Recursos para Escuela Dominical</h1>
-      <p>Materiales lecciones bíblicas, juegos, manualidades y recursos imprimibles listos para usar.</p>
-    </header>
+  <!-- Navegación con enlaces corregidos hacia index.html -->
+  <nav>
+    <a href="index.html" class="logo">
+      <i class="fa-solid fa-church"></i> ASAMBLEA DE DIOS
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="escuela-dominical.html">Escuela Dominical</a></li>
+    </ul>
+  </nav>
 
-    <!-- 1. Lecciones e Imprimibles -->
+  <header class="header-banner">
+    <h1><i class="fa-solid fa-child-reaching"></i> Escuela Dominical</h1>
+    <p>Materiales imprimibles, lecciones bíblicas, juegos y manualidades paso a paso.</p>
+  </header>
+
+  <main class="container">
     <h2 class="section-title"><i class="fa-solid fa-file-pdf"></i> Lecciones e Imprimibles</h2>
     <div class="grid">
-      
       <div class="card">
         <div>
           <span class="tag">4 a 7 años</span>
           <div class="card-icon"><i class="fa-solid fa-ship"></i></div>
-          <h3>La Historia de Arca de Noé</h3>
-          <p>Lección completa con ilustraciones, guión para el maestro y hoja de colorear.</p>
+          <h3>El Arca de Noé</h3>
+          <p>Lección ilustrada con guión de enseñanza y dibujo para colorear.</p>
         </div>
-        <a href="#" class="btn-download"><i class="fa-solid fa-download"></i> Descargar PDF</a>
+        <a href="#" class="btn-download"><i class="fa-solid fa-download"></i> Próximamente PDF</a>
       </div>
 
       <div class="card">
         <div>
           <span class="tag">8 a 12 años</span>
           <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
-          <h3>David y Goliat: La Fe y la Confianza</h3>
-          <p>Estudio interactivo, sopa de letras y preguntas de reflexión para niños mayores.</p>
+          <h3>David y Goliat</h3>
+          <p>Estudio práctico sobre la fe y el valor, con preguntas para discusión.</p>
         </div>
-        <a href="#" class="btn-download"><i class="fa-solid fa-download"></i> Descargar PDF</a>
+        <a href="#" class="btn-download"><i class="fa-solid fa-download"></i> Próximamente PDF</a>
       </div>
-
-      <div class="card">
-        <div>
-          <span class="tag">Todas las edades</span>
-          <div class="card-icon"><i class="fa-solid fa-palette"></i></div>
-          <h3>Pack de Hojas para Colorear</h3>
-          <p>Colección de 10 dibujos con versículos bíblicos clave para memorizar.</p>
-        </div>
-        <a href="#" class="btn-download"><i class="fa-solid fa-download"></i> Descargar PDF</a>
-      </div>
-
     </div>
+  </main>
 
-    <!-- 2. Dinámicas y Juegos -->
-    <h2 class="section-title"><i class="fa-solid fa-gamepad"></i> Juegos y Dinámicas</h2>
-    <div class="grid">
-      
-      <div class="card">
-        <div>
-          <span class="tag">Rompehielos</span>
-          <div class="card-icon"><i class="fa-solid fa-puzzle-piece"></i></div>
-          <h3>Trivia Bíblica por Equipos</h3>
-          <p>Tarjeta de preguntas rápidas con respuestas clasificadas por nivel de dificultad.</p>
-        </div>
-        <a href="#" class="btn-download"><i class="fa-solid fa-download"></i> Ver Juego</a>
-      </div>
-
-      <div class="card">
-        <div>
-          <span class="tag">Memorización</span>
-          <div class="card-icon"><i class="fa-solid fa-brain"></i></div>
-          <h3>El Espía del Versículo</h3>
-          <p>Dinámica activa para enseñar versículos bíblicos mediante pistas y movimientos.</p>
-        </div>
-        <a href="#" class="btn-download"><i class="fa-solid fa-download"></i> Ver Dinámica</a>
-      </div>
-
-    </div>
-
-    <!-- 3. Manualidades Creativas -->
-    <h2 class="section-title"><i class="fa-solid fa-scissors"></i> Manualidades Paso a Paso</h2>
-    <div class="grid">
-      
-      <div class="card">
-        <div>
-          <span class="tag">Material Reciclado</span>
-          <div class="card-icon"><i class="fa-solid fa-lightbulb"></i></div>
-          <h3>La Armadura de Dios</h3>
-          <p>Instrucciones paso a paso para construir un escudo y casco usando cartón y papel de aluminio.</p>
-        </div>
-        <a href="#" class="btn-download"><i class="fa-solid fa-eye"></i> Ver Galería y Guía</a>
-      </div>
-
-      <div class="card">
-        <div>
-          <span class="tag">Fácil y Rápido</span>
-          <div class="card-icon"><i class="fa-solid fa-bookmark"></i></div>
-          <h3>Marcadores de Biblia Creativos</h3>
-          <p>Plantillas imprimibles para recortar, colorear y regalar en clase.</p>
-        </div>
-        <a href="#" class="btn-download"><i class="fa-solid fa-download"></i> Descargar Plantilla</a>
-      </div>
-
-    </div>
-
-  </div>
+  <footer>
+    <p>&copy; ASAMBLEA DE DIOS - Todos los derechos reservados.</p>
+  </footer>
 
 </body>
 </html>
