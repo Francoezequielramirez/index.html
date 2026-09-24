@@ -131,23 +131,6 @@
       box-shadow: 0 10px 20px rgba(0,0,0,0.1);
     }
 
-    .tag {
-      display: inline-block;
-      background: #e0f2fe;
-      color: #0369a1;
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      font-weight: bold;
-      margin-bottom: 10px;
-      width: fit-content;
-    }
-
-    .tag-at { background: #fef3c7; color: #b45309; }
-    .tag-nt { background: #dcfce7; color: #15803d; }
-    .tag-game { background: #fef3c7; color: #b45309; }
-    .tag-craft { background: #fce7f3; color: #be185d; }
-
     .card-icon {
       font-size: 2.2rem;
       color: var(--secondary);
@@ -262,7 +245,7 @@
 
   <main class="container">
     
-    <!-- Tarjetas de Categorías Principales -->
+    <!-- Tarjetas de Categorías Principales (Tu diseño original) -->
     <h2 class="section-title">Nuestras Secciones</h2>
 
     <div class="grid" style="margin-bottom: 3rem;">
@@ -301,7 +284,7 @@
     <!-- SECCIÓN INTEGRADA: Escuela Dominical con Panel de Supabase -->
     <div id="escuela-dominical-seccion" style="padding-top: 20px;">
       
-      <h2 class="section-title"><i class="fa-solid fa-child-reaching"></i> Sección Escuela Dominical</h2>
+      <h2 class="section-title"><i class="fa-solid fa-child-reaching"></i> Escuela Dominical - Recursos y Archivos</h2>
 
       <!-- Panel de Administración / Subida de Supabase -->
       <div id="admin-panel" style="background: #1e293b; color: white; padding: 20px; border-radius: 8px; margin-bottom: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
@@ -343,47 +326,13 @@
         </div>
       </div>
 
-      <!-- Lecciones Imprimibles -->
-      <h2 class="section-title"><i class="fa-solid fa-book-bible"></i> Lecciones e Imprimibles por Edades</h2>
-      <div class="grid" style="margin-bottom: 2.5rem;">
-        <div class="card">
-          <div>
-            <span class="tag tag-at">4 a 7 años • Génesis</span>
-            <div class="card-icon"><i class="fa-solid fa-ship"></i></div>
-            <h3>El Arca de Noé</h3>
-            <p>La historia de la promesa de Dios con guión fácil, versículo clave y hojas para colorear.</p>
-          </div>
-          <a href="#" class="btn"><i class="fa-solid fa-download"></i> Descargar PDF</a>
-        </div>
-
-        <div class="card">
-          <div>
-            <span class="tag tag-at">8 a 12 años • 1 Samuel</span>
-            <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
-            <h3>David y Goliat</h3>
-            <p>Lección sobre la valentía y la fe con preguntas de análisis y sopa de letras.</p>
-          </div>
-          <a href="#" class="btn"><i class="fa-solid fa-download"></i> Descargar PDF</a>
-        </div>
-
-        <div class="card">
-          <div>
-            <span class="tag tag-nt">Todas las edades • Lucas</span>
-            <div class="card-icon"><i class="fa-solid fa-heart-pulse"></i></div>
-            <h3>El Buen Samaritano</h3>
-            <p>Enseñanza sobre la compasión y el amor al prójimo con dinámicas en clase.</p>
-          </div>
-          <a href="#" class="btn"><i class="fa-solid fa-download"></i> Descargar PDF</a>
-        </div>
-      </div>
-
     </div>
 
   </main>
 
   <!-- Script de conexión con Supabase -->
   <script>
-    // 1. Datos de tu proyecto de Supabase (reemplaza con tus credenciales si cambiaste de proyecto)
+    // 1. Reemplazá con los datos de tu proyecto de Supabase
     const SUPABASE_URL = 'https://TU-PROYECTO.supabase.co';
     const SUPABASE_ANON_KEY = 'TU_ANON_KEY_AQUI';
 
@@ -449,9 +398,9 @@
         const li = document.createElement('li');
         li.style.cssText = 'margin-bottom: 8px; background: #334155; padding: 8px 12px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;';
         li.innerHTML = `
-          <span style="font-size: 0.9rem; word-break: break-all; margin-right: 10px;">${item.name.split('_').slice(1).join('_') || item.name}</span>
+          <span style="font-size: 0.9rem; word-break: break-all; margin-right: 10px; color: white;">${item.name.split('_').slice(1).join('_') || item.name}</span>
           <a href="${publicUrlData.publicUrl}" target="_blank" download style="background: #2563eb; color: white; padding: 4px 10px; border-radius: 4px; text-decoration: none; font-size: 12px; white-space: nowrap;">
-            Descargar
+            Descargar PDF
           </a>
         `;
         lista.appendChild(li);
